@@ -929,6 +929,49 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 }
 
+/* Fix: footer mobile layout — remove excess blue space and fix column display */
+@media (max-width: 991px) {
+  .footer-section {
+    position: relative !important;
+    transform: none !important;
+    min-height: unset !important;
+  }
+  .footer-image-wrapper {
+    min-height: unset !important;
+    height: auto !important;
+  }
+  .footer-content-wrapper {
+    flex-direction: column !important;
+    gap: 2rem !important;
+    padding-top: 2.5rem !important;
+    padding-bottom: 2.5rem !important;
+  }
+  .footer-content-container {
+    flex-direction: column !important;
+    gap: 2rem !important;
+  }
+  .footer-content-logo-wrapper {
+    max-width: 100% !important;
+  }
+}
+@media (max-width: 767px) {
+  .footer-section {
+    height: auto !important;
+    overflow: visible !important;
+  }
+  .footer-image {
+    display: none !important;
+  }
+  .footer-content-about-wrapper {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 1.5rem !important;
+  }
+  .empty {
+    display: none !important;
+  }
+}
+
 .home-blog-slide-title {
   display: -webkit-box;
   -webkit-line-clamp: 4;
