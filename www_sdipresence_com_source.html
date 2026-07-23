@@ -907,6 +907,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 }
 
+/* Fix: footer-section fixed positioning causes CTA button to float over footer */
+.footer-section.is-footer-fixed {
+  position: relative !important;
+}
+
 /* Fix: reduce excess blue space in CTA animation area on mobile */
 @media (max-width: 767px) {
   .home-cta-anims {
