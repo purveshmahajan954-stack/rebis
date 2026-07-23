@@ -907,6 +907,28 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 }
 
+/* Fix: reduce excess blue space in CTA animation area on mobile */
+@media (max-width: 767px) {
+  .home-cta-anims {
+    max-height: 180px;
+    overflow: hidden;
+  }
+  .home-cta-anims-code-box,
+  .home-cta-anims-code-wr {
+    max-height: 180px;
+    overflow: hidden;
+  }
+}
+@media (max-width: 479px) {
+  .home-cta-anims {
+    max-height: 130px;
+  }
+  .home-cta-anims-code-box,
+  .home-cta-anims-code-wr {
+    max-height: 130px;
+  }
+}
+
 .home-blog-slide-title {
   display: -webkit-box;
   -webkit-line-clamp: 4;
