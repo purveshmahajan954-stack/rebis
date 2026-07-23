@@ -888,6 +888,25 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 </script></div><div class="css-code w-embed"></div></div><div class="page-embed-styles w-embed"><style>
+/* Fix: reduce excess blue sky space in hero on mobile */
+@media (max-width: 767px) {
+  .hero-animation__wr {
+    max-height: 280px;
+    overflow: hidden;
+  }
+  .hero-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+  }
+}
+@media (max-width: 479px) {
+  .hero-animation__wr {
+    max-height: 220px;
+  }
+}
+
 .home-blog-slide-title {
   display: -webkit-box;
   -webkit-line-clamp: 4;
