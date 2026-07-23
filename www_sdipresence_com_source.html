@@ -1821,4 +1821,85 @@ function updateCustomProgress(swiper) {
 
 
 
-<script src="https://hubspotv2.use1-marketplace-1p-apps-prod-red.if.webflow.services/static/loader.js" type="text/javascript" async="" defer=""></script><script src="https://hubspotonwebflow.com/assets/js/form-124.js" type="text/javascript" integrity="sha384-bjyNIOqAKScdeQ3THsDZLGagNN56B4X2Auu9YZIGu+tA/PlggMk4jbWruG/P6zYj" crossorigin="anonymous"></script></body></html><!--/$-->
+<script src="https://hubspotv2.use1-marketplace-1p-apps-prod-red.if.webflow.services/static/loader.js" type="text/javascript" async="" defer=""></script><script src="https://hubspotonwebflow.com/assets/js/form-124.js" type="text/javascript" integrity="sha384-bjyNIOqAKScdeQ3THsDZLGagNN56B4X2Auu9YZIGu+tA/PlggMk4jbWruG/P6zYj" crossorigin="anonymous"></script>
+
+<!-- Custom Cursor -->
+<div id="cursor-outer"></div>
+<div id="cursor-dot"></div>
+
+<style>
+* { cursor: none !important; }
+
+#cursor-outer {
+  position: fixed;
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(100, 172, 255, 0.7);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  backdrop-filter: blur(1px);
+}
+
+#cursor-dot {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: #65acff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s ease;
+}
+
+/* Hover state — grows on links/buttons */
+body.cursor-hover #cursor-outer {
+  width: 56px;
+  height: 56px;
+  background: rgba(100, 172, 255, 0.08);
+  border-color: #65acff;
+}
+body.cursor-hover #cursor-dot {
+  transform: translate(-50%, -50%) scale(0);
+}
+</style>
+
+<script>
+(function () {
+  const outer = document.getElementById('cursor-outer');
+  const dot   = document.getElementById('cursor-dot');
+
+  let mouseX = 0, mouseY = 0;
+  let outerX = 0, outerY = 0;
+
+  document.addEventListener('mousemove', function (e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + 'px';
+    dot.style.top  = mouseY + 'px';
+  });
+
+  // Smooth lag on the outer ring
+  (function loop() {
+    outerX += (mouseX - outerX) * 0.12;
+    outerY += (mouseY - outerY) * 0.12;
+    outer.style.left = outerX + 'px';
+    outer.style.top  = outerY + 'px';
+    requestAnimationFrame(loop);
+  })();
+
+  // Grow on interactive elements
+  const hoverTargets = 'a, button, input, [role="button"], .swiper-nav-btn, .dark-blue-btn';
+  document.addEventListener('mouseover', function (e) {
+    if (e.target.closest(hoverTargets)) document.body.classList.add('cursor-hover');
+  });
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.closest(hoverTargets)) document.body.classList.remove('cursor-hover');
+  });
+})();
+</script>
+
+</body></html><!--/$-->
