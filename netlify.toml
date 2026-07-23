@@ -1,0 +1,8 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/"
+  to = "/www_sdipresence_com_source.html"
+  status = 200
+  force = true
