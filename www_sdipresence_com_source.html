@@ -908,6 +908,11 @@ document.addEventListener("DOMContentLoaded", function () {
   position: relative !important;
 }
 
+/* Fix: collapse Webflow's footer spacer div — not needed since footer is now relative */
+.empty {
+  display: none !important;
+}
+
 /* Fix: reduce excess blue space in CTA animation area on mobile */
 @media (max-width: 767px) {
   .home-cta-anims {
