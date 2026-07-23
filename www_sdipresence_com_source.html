@@ -918,6 +918,23 @@ document.addEventListener("DOMContentLoaded", function () {
     max-height: 180px;
     overflow: hidden;
   }
+  /* Keep the "Work with SDI" button inside the CTA section, not overlapping footer */
+  .cta-btn-container {
+    position: relative !important;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem 1rem 2rem;
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+  }
+  .section.home-cta {
+    position: relative;
+    overflow: visible;
+    z-index: 1;
+  }
 }
 @media (max-width: 479px) {
   .home-cta-anims {
