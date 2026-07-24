@@ -1029,7 +1029,9 @@ document.addEventListener("DOMContentLoaded", function () {
   overflow: visible !important;
   gap: 1.25rem !important;
   max-width: 760px !important;
-  padding: 0 1.5rem !important;
+  /* Zero out any Webflow negative margin that pulls heading above section edge */
+  margin-top: 0 !important;
+  padding: 1rem 1.5rem 0 !important;
   display: flex !important;
   flex-direction: column !important;
   align-items: center !important;
