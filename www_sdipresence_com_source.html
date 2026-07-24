@@ -2232,9 +2232,10 @@ body.cursor-hover #cursor-dot {
 
 html { scroll-behavior: smooth; }
 
-/* ── Navbar height — match logo size ── */
+/* ── Navbar height — sized exactly to logo ── */
 .header-content-container {
-  min-height: 72px;
+  min-height: unset !important;
+  height: auto !important;
   display: flex;
   align-items: center;
 }
@@ -2243,8 +2244,12 @@ html { scroll-behavior: smooth; }
   align-items: center;
 }
 .header-layout {
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+/* Ensure the nav row itself doesn't add extra height */
+.header-wr, .w-nav {
+  min-height: unset !important;
 }
 
 /* ── Page load transitions ── */
