@@ -1993,86 +1993,386 @@ body.cursor-hover #cursor-dot {
 
 
 <style>
-/* ═══ RGI Animations ═══ */
+/* ══════════════════════════════════════════
+   RGI — Professional Polish & Transitions
+   ══════════════════════════════════════════ */
 
-/* Navbar slide-in */
-.w-nav { animation: rgiNavIn 0.55s cubic-bezier(.22,.68,0,1.2) both; }
-@keyframes rgiNavIn { from { opacity:0; transform:translateY(-18px); } to { opacity:1; transform:translateY(0); } }
+html { scroll-behavior: smooth; }
 
-/* Logo pop */
-.header-logo-img { animation: rgiPop 0.6s cubic-bezier(.22,.68,0,1.2) 0.25s both; }
-@keyframes rgiPop { from { opacity:0; transform:scale(0.75); } to { opacity:1; transform:scale(1); } }
+/* ── Page load transitions ── */
+.w-nav {
+  animation: rgiNavIn 0.6s cubic-bezier(.22,.68,0,1.2) both;
+}
+@keyframes rgiNavIn {
+  from { opacity:0; transform:translateY(-20px); }
+  to   { opacity:1; transform:translateY(0);     }
+}
+.header-logo-img {
+  animation: rgiPop 0.65s cubic-bezier(.22,.68,0,1.2) 0.2s both;
+}
+@keyframes rgiPop {
+  from { opacity:0; transform:scale(0.7); }
+  to   { opacity:1; transform:scale(1);   }
+}
+.contact-btn-wrapper {
+  animation: rgiFadeIn 0.5s ease 0.45s both;
+}
+@keyframes rgiFadeIn {
+  from { opacity:0; } to { opacity:1; }
+}
 
-/* Scroll reveal classes */
-.rgi-up   { opacity:0; transform:translateY(28px); transition:opacity .6s cubic-bezier(.22,.68,0,1.2), transform .6s cubic-bezier(.22,.68,0,1.2); }
-.rgi-scl  { opacity:0; transform:scale(0.93);      transition:opacity .55s ease, transform .55s ease; }
-.rgi-r    { opacity:0; transform:translateX(36px);  transition:opacity .6s cubic-bezier(.22,.68,0,1.2), transform .6s cubic-bezier(.22,.68,0,1.2); }
-.rgi-show { opacity:1 !important; transform:none !important; }
+/* ── Scroll reveal base classes ── */
+.rgi-up {
+  opacity:0; transform:translateY(34px);
+  transition: opacity .65s cubic-bezier(.22,.68,0,1.2),
+              transform .65s cubic-bezier(.22,.68,0,1.2);
+}
+.rgi-up-sm {
+  opacity:0; transform:translateY(18px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.rgi-left {
+  opacity:0; transform:translateX(-36px);
+  transition: opacity .6s cubic-bezier(.22,.68,0,1.2),
+              transform .6s cubic-bezier(.22,.68,0,1.2);
+}
+.rgi-right {
+  opacity:0; transform:translateX(36px);
+  transition: opacity .6s cubic-bezier(.22,.68,0,1.2),
+              transform .6s cubic-bezier(.22,.68,0,1.2);
+}
+.rgi-scl {
+  opacity:0; transform:scale(0.92);
+  transition: opacity .55s ease, transform .55s ease;
+}
+.rgi-show {
+  opacity:1 !important; transform:none !important;
+}
 
-/* Hover lifts on buttons */
-.dark-blue-btn, .w-button { transition: transform .2s ease, box-shadow .2s ease !important; }
-.dark-blue-btn:hover, .w-button:hover { transform:translateY(-3px) !important; box-shadow:0 8px 24px rgba(0,0,30,.18) !important; }
-
-/* Card hover */
-.home-cases-slider-slide { transition: transform .3s ease, box-shadow .3s ease; }
-.home-cases-slider-slide:hover { transform:translateY(-5px); box-shadow:0 14px 36px rgba(0,0,50,.13); }
-
-/* Image zoom on hover */
-.home-cases-slide-img-wr { overflow:hidden; border-radius:12px; }
-.home-cases-slide-img { transition: transform .5s ease !important; }
-.home-cases-slide-img-wr:hover .home-cases-slide-img { transform:scale(1.07); }
-
-/* Nav link underline */
+/* ── Header nav underline ── */
 .header-nav-item-text { position:relative; }
-.header-nav-item-text::after { content:''; position:absolute; bottom:-3px; left:0; width:0; height:2px; background:currentColor; transition:width .25s ease; }
+.header-nav-item-text::after {
+  content:''; position:absolute; bottom:-3px; left:0;
+  width:0; height:2px; background:currentColor;
+  transition: width .25s ease;
+}
 .w-dropdown:hover .header-nav-item-text::after { width:100%; }
 
-/* Smooth scroll */
-html { scroll-behavior:smooth; }
+/* ── Button hover lifts ── */
+.button-over, .button-over-blue, .dark-blue-btn, .w-button, .contact-btn {
+  transition: transform .22s cubic-bezier(.22,.68,0,1.2),
+              box-shadow .22s ease !important;
+}
+.button-over:hover, .button-over-blue:hover, .dark-blue-btn:hover, .w-button:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 32px rgba(0,20,80,.2) !important;
+}
+.contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,20,80,.15);
+}
+
+/* ── Card hover ── */
+.home-cases-slider-slide {
+  transition: transform .32s cubic-bezier(.22,.68,0,1.2),
+              box-shadow .32s ease;
+}
+.home-cases-slider-slide:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 48px rgba(0,10,60,.14);
+}
+
+/* ── Image zoom on hover ── */
+.home-cases-slide-img-wr { overflow:hidden; border-radius:12px; }
+.home-cases-slide-img { transition: transform .55s ease !important; }
+.home-cases-slide-img-wr:hover .home-cases-slide-img { transform:scale(1.08); }
+
+/* ── Section divider pulse ── */
+.section { position:relative; }
+
+/* ══════════════════════════════════════════
+   FOOTER — Full Redesign
+   ══════════════════════════════════════════ */
+
+/* Gradient top border on footer */
+.footer-section.is-footer-fixed {
+  position: relative !important;
+}
+.footer-section.is-footer-fixed::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    #2456d1 20%,
+    #65acff 50%,
+    #2456d1 80%,
+    transparent 100%);
+  z-index: 10;
+}
+
+/* Footer links — smooth underline reveal */
+.footer-link {
+  position: relative;
+  overflow: hidden;
+  transition: color .2s ease !important;
+}
+.footer-link-text {
+  position: relative;
+  display: inline-block;
+  transition: transform .22s ease, color .22s ease;
+}
+.footer-link:hover .footer-link-text {
+  transform: translateX(5px);
+  color: #ffffff !important;
+}
+
+/* Footer heading accent */
+.footer-dropdown-toggle h5 {
+  position: relative;
+  padding-bottom: 6px;
+  letter-spacing: .03em;
+}
+.footer-dropdown-toggle h5::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 28px; height: 2px;
+  background: linear-gradient(90deg, #2456d1, #65acff);
+  border-radius: 2px;
+  transition: width .3s ease;
+}
+.footer-right-section-services-wr:hover .footer-dropdown-toggle h5::after {
+  width: 100%;
+}
+
+/* Social buttons — pill redesign */
+.socials-button {
+  border: 1px solid rgba(101,172,255,.35) !important;
+  border-radius: 50px !important;
+  padding: 7px 18px !important;
+  transition: background .22s ease, border-color .22s ease,
+              transform .22s ease, box-shadow .22s ease !important;
+  backdrop-filter: blur(4px);
+}
+.socials-button:hover {
+  background: rgba(101,172,255,.12) !important;
+  border-color: #65acff !important;
+  transform: translateY(-3px) !important;
+  box-shadow: 0 8px 20px rgba(36,86,209,.25) !important;
+}
+.socials-button .text-size-medium-14 {
+  font-weight: 600 !important;
+  letter-spacing: .08em !important;
+}
+
+/* Footer rights bar — elegant separator */
+.container.is-footer-rights {
+  border-top: 1px solid rgba(101,172,255,.15) !important;
+  backdrop-filter: blur(8px);
+}
+.footer-rights-content {
+  padding: 18px 0 !important;
+}
+.footer-rights-link {
+  position: relative;
+  transition: color .2s ease !important;
+}
+.footer-rights-link .text-size-medium-14 {
+  transition: color .2s ease;
+}
+.footer-rights-link:hover .text-size-medium-14 {
+  color: #65acff !important;
+}
+
+/* Footer logo subtle glow on hover */
+.sdi-logo {
+  transition: filter .3s ease, transform .3s ease;
+  filter: drop-shadow(0 0 0px transparent);
+}
+.footer-content-logo-wrapper:hover .sdi-logo {
+  filter: drop-shadow(0 0 12px rgba(101,172,255,.35));
+  transform: scale(1.04);
+}
+
+/* Heading sky-blue gradient enhanced */
+.heading-sky-blue-gradient {
+  background-size: 200% auto !important;
+  animation: rgiGradientShift 4s linear infinite;
+}
+@keyframes rgiGradientShift {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* Footer newsletter input focus glow */
+.email-form-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(101,172,255,.4) !important;
+}
+
+/* Footer entry animation */
+.footer-section {
+  animation: rgiFooterIn .8s cubic-bezier(.22,.68,0,1.2) both;
+  animation-play-state: paused;
+}
+.footer-section.rgi-footer-visible {
+  animation-play-state: running;
+}
+@keyframes rgiFooterIn {
+  from { opacity:0; transform:translateY(40px); }
+  to   { opacity:1; transform:translateY(0);    }
+}
+
+/* Decorative glow dot behind footer logo */
+.footer-content-logo-wrapper {
+  position: relative;
+}
+.footer-content-logo-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 50%; left: 30px;
+  transform: translate(-50%,-50%);
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(36,86,209,.18) 0%, transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+/* ── Progress bar accent on swiper ── */
+.swiper-pagination-progress-fill {
+  background: linear-gradient(90deg, #2456d1, #65acff) !important;
+  border-radius: 4px;
+  box-shadow: 0 0 8px rgba(101,172,255,.4);
+}
 </style>
 
 <script>
-(function(){
-  /* Helper: is this element inside the footer area? */
+(function () {
+  'use strict';
+
+  /* ── Helpers ── */
+  function inNav(el) { return !!(el.closest && el.closest('.w-nav')); }
   function inFooter(el) {
     var p = el.parentElement;
     while (p) {
       var c = p.className || '';
-      if (typeof c === 'string' && (
-        c.indexOf('footer') !== -1 || c.indexOf('is-footer') !== -1
-      )) return true;
+      if (typeof c === 'string' &&
+          (c.indexOf('footer') !== -1 || c.indexOf('is-footer') !== -1)) return true;
       p = p.parentElement;
     }
     return false;
   }
 
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting) { e.target.classList.add('rgi-show'); io.unobserve(e.target); }
+  /* ── Scroll-reveal observer ── */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('rgi-show');
+        io.unobserve(e.target);
+      }
     });
-  }, { threshold: 0.1, rootMargin:'0px 0px -30px 0px' });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
   function reveal(sel, cls, delayFn) {
-    document.querySelectorAll(sel).forEach(function(el, i){
-      if (inFooter(el)) return;
-      if (el.closest && el.closest('.w-nav')) return;
+    document.querySelectorAll(sel).forEach(function (el, i) {
+      if (inFooter(el) || inNav(el)) return;
       el.classList.add(cls);
       if (delayFn) el.style.transitionDelay = delayFn(i) + 's';
       io.observe(el);
     });
   }
 
-  function init(){
-    reveal('h1,h2,h3,h4,h5,h6',        'rgi-up',  function(i){ return (i%4)*0.07; });
-    reveal('p',                          'rgi-up',  function(i){ return 0.08+(i%5)*0.06; });
-    reveal('.home-cases-slider-slide',   'rgi-scl', function(i){ return i*0.09; });
-    reveal('.home-cases-slide-img-wr',   'rgi-r',   function(i){ return i*0.07; });
-    reveal('.dark-blue-btn',             'rgi-up',  function(i){ return 0.15+i*0.05; });
+  function init() {
+    /* Headings — stagger by group of 4 */
+    reveal('h1,h2,h3,h4',             'rgi-up',    function (i) { return (i % 4) * 0.08; });
+    reveal('h5,h6',                    'rgi-up-sm', function (i) { return (i % 6) * 0.05; });
+
+    /* Body copy — gentle cascade */
+    reveal('p',                        'rgi-up',    function (i) { return 0.1 + (i % 5) * 0.06; });
+
+    /* Cards */
+    reveal('.home-cases-slider-slide', 'rgi-scl',   function (i) { return i * 0.1; });
+    reveal('.home-blog-slider-slide',  'rgi-scl',   function (i) { return i * 0.09; });
+
+    /* Image wrappers slide in from right */
+    reveal('.home-cases-slide-img-wr', 'rgi-right', function (i) { return i * 0.07; });
+
+    /* Stats / metric blocks slide from left */
+    reveal('.dark-blue-btn',           'rgi-up',    function (i) { return 0.15 + i * 0.06; });
+    reveal('.digital-teaser-list',     'rgi-left',  function (i) { return i * 0.12; });
+    reveal('.home-industries-slide',   'rgi-scl',   function (i) { return i * 0.08; });
   }
 
-  document.readyState === 'loading'
-    ? document.addEventListener('DOMContentLoaded', init)
-    : init();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+  /* ── Footer entry animation ── */
+  var footerObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('rgi-footer-visible');
+        footerObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  function watchFooter() {
+    var fs = document.querySelector('.footer-section');
+    if (fs) footerObs.observe(fs);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', watchFooter);
+  } else {
+    watchFooter();
+  }
+
+  /* ── Animated counter for any stat numbers ── */
+  function animateCounter(el) {
+    var raw = el.textContent.replace(/[^0-9.]/g, '');
+    var target = parseFloat(raw);
+    if (!target || isNaN(target)) return;
+    var prefix = el.textContent.match(/^[^0-9]*/)[0];
+    var suffix = el.textContent.match(/[^0-9.]*$/)[0];
+    var start = 0, duration = 1400;
+    var t0 = null;
+    function step(ts) {
+      if (!t0) t0 = ts;
+      var prog = Math.min((ts - t0) / duration, 1);
+      var ease = 1 - Math.pow(1 - prog, 3);
+      var cur = Math.round(start + (target - start) * ease);
+      el.textContent = prefix + cur + suffix;
+      if (prog < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var counterObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        animateCounter(e.target);
+        counterObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  function watchCounters() {
+    document.querySelectorAll('.t-red-medium-21, .heading-style-32').forEach(function (el) {
+      if (/^\s*[\d]+/.test(el.textContent)) counterObs.observe(el);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', watchCounters);
+  } else {
+    watchCounters();
+  }
+
 })();
 </script>
 </body></html><!--/$-->
