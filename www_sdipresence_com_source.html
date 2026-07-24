@@ -2385,13 +2385,9 @@ html { scroll-behavior: smooth; }
 /* The custom scroll-line is decorative only and must never cover the footer
    content or make the footer look like a blank second page. */
 #rgi-snake-wr {
-  /* Snake renders behind all page content — sections sit above it via z-index. */
-  z-index: 1 !important;
-}
-/* Lift every section above the fixed snake overlay */
-.section, .navbar, .nav-bar-section, .footer-section {
-  position: relative;
-  z-index: 2;
+  /* Snake stays above page content but is kept very light/translucent */
+  z-index: 60 !important;
+  opacity: 0.18 !important;
 }
 
 @media (max-width: 767px) {
