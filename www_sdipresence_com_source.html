@@ -2185,8 +2185,19 @@ html { scroll-behavior: smooth; }
   width: 100%;
 }
 
-/* Social buttons — pill redesign */
+/* Social buttons — pill redesign, single row, no wrap */
+.footer-social-media-wrapper {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
 .socials-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  white-space: nowrap !important;
   border: 1px solid rgba(101,172,255,.35) !important;
   border-radius: 50px !important;
   padding: 7px 18px !important;
@@ -2201,6 +2212,7 @@ html { scroll-behavior: smooth; }
   box-shadow: 0 8px 20px rgba(36,86,209,.25) !important;
 }
 .socials-button .text-size-medium-14 {
+  white-space: nowrap !important;
   font-weight: 600 !important;
   letter-spacing: .08em !important;
 }
