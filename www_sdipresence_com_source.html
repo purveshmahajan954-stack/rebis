@@ -2757,11 +2757,14 @@ html { scroll-behavior: smooth; }
     var nav    = document.querySelector('.header.w-nav, .w-nav');
     var startY = nav ? nav.getBoundingClientRect().bottom + getScroll() + 8 : 80;
 
-    /* End: just above the footer */
-    var footer = document.querySelector('.footer-section');
-    var endY   = footer
-      ? footer.getBoundingClientRect().top + getScroll() - 24
-      : Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - 40;
+    /* End: bottom of the "Why Rebis" section (solutions-support) */
+    var whySection = document.querySelector('.section.solutions-support');
+    var footer     = document.querySelector('.footer-section');
+    var endY       = whySection
+      ? whySection.getBoundingClientRect().bottom + getScroll()
+      : footer
+        ? footer.getBoundingClientRect().top + getScroll() - 24
+        : Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - 40;
 
     if (endY <= startY) return;   /* nothing to draw */
 
