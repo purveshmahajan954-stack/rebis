@@ -2513,8 +2513,8 @@ html { scroll-behavior: smooth; }
 
 #rgi-snake-trail {
   fill: none;
-  stroke: rgba(101,172,255,0.28);
-  stroke-width: 2.5;
+  stroke: rgba(101,172,255,0.45);
+  stroke-width: 3;
   stroke-linecap: round;
 }
 #rgi-snake-path {
@@ -2559,16 +2559,8 @@ html { scroll-behavior: smooth; }
     var container = document.body;
     var W     = document.documentElement.clientWidth;
 
-    /* Stop the snake at the bottom of the cases/products section */
-    var stopEl = document.querySelector('.section.home-cases');
-    var docH;
-    if (stopEl) {
-      var rect = stopEl.getBoundingClientRect();
-      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-      docH = rect.bottom + scrollTop;
-    } else {
-      docH = Math.max(container.scrollHeight, document.documentElement.scrollHeight);
-    }
+    /* Extend snake to full page height */
+    var docH = Math.max(container.scrollHeight, document.documentElement.scrollHeight);
     var navEl = document.querySelector('.w-nav');
     var startY = navEl ? navEl.offsetHeight + 12 : 80;
 
