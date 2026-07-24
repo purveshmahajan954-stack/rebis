@@ -2501,20 +2501,20 @@ html { scroll-behavior: smooth; }
 <!-- ═══ Snake Scroll Line ═══ -->
 <style>
 #rgi-snake-wr {
-  position: absolute;
+  position: fixed;
   top: 0; left: 0;
   width: 100%;
-  height: 0;
+  height: 100%;
   pointer-events: none;
-  z-index: 1;          /* above the page background, below the header */
+  z-index: 2;
   overflow: visible;
 }
 #rgi-snake-svg { overflow: visible; display: block; }
 
 #rgi-snake-trail {
   fill: none;
-  stroke: rgba(101,172,255,0.13);
-  stroke-width: 2;
+  stroke: rgba(101,172,255,0.28);
+  stroke-width: 2.5;
   stroke-linecap: round;
 }
 #rgi-snake-path {
@@ -2578,7 +2578,6 @@ html { scroll-behavior: smooth; }
 
     var wr = document.createElement('div');
     wr.id = 'rgi-snake-wr';
-    wr.style.height = docH + 'px';
 
     var NS  = 'http://www.w3.org/2000/svg';
     var svg = document.createElementNS(NS, 'svg');
@@ -2634,10 +2633,11 @@ html { scroll-behavior: smooth; }
     line.setAttribute('stroke-dasharray',  len);
     line.setAttribute('stroke-dashoffset', len);   /* hidden at start */
 
-    /* ── Drive animation via Lenis scroll event when available,
-          fall back to native window scroll ── */
-    function applyProgress(progress) {
-      var p     = Math.max(0, Math.min(progress, 1));
+    /* ── Drive animation via rAF loop — most reliable across Lenis variants ── */
+    var lastScroll = -1;
+
+    function applyProgress(p) {
+      p = Math.max(0, Math.min(p, 1));
       var drawn = len * p;
       line.setAttribute('stroke-dashoffset', len - drawn);
       if (p > 0.005) {
@@ -2652,46 +2652,35 @@ html { scroll-behavior: smooth; }
       }
     }
 
-    function applyScrollProgress(scrollPosition) {
-      var progressMax = Math.max(1, docH - window.innerHeight);
-      var scroll = typeof scrollPosition === 'number'
-        ? scrollPosition
-        : (window.pageYOffset || document.documentElement.scrollTop || 0);
-      applyProgress(scroll / progressMax);
+    function getScroll() {
+      /* Try Lenis first (gives smooth virtual position), then native */
+      if (window.lenis && typeof window.lenis.scroll === 'number') {
+        return window.lenis.scroll;
+      }
+      return window.pageYOffset || document.documentElement.scrollTop || 0;
     }
 
-    /* Always listen to native scroll. This remains reliable even when Lenis
-       is loaded late or its event payload has no global progress value. */
-    window.addEventListener('scroll', function () {
-      applyScrollProgress();
-    }, { passive: true });
-
-    function attachLenis() {
-      if (!window.lenis || typeof window.lenis.on !== 'function') return false;
-      window.lenis.on('scroll', function (e) {
-        applyScrollProgress(e && typeof e.scroll === 'number' ? e.scroll : undefined);
-      });
-      return true;
+    function tick() {
+      var scroll = getScroll();
+      if (scroll !== lastScroll) {
+        lastScroll = scroll;
+        /* Translate SVG so the fixed wrapper tracks the page */
+        svg.style.transform = 'translateY(-' + scroll + 'px)';
+        var progressMax = Math.max(1, docH - window.innerHeight);
+        applyProgress(scroll / progressMax);
+      }
+      requestAnimationFrame(tick);
     }
 
-    if (!attachLenis()) {
-      /* Lenis may be loaded after this script; native scrolling already works. */
-      var tries = 0;
-      var poll = setInterval(function () {
-        tries++;
-        if (attachLenis() || tries > 40) clearInterval(poll);
-      }, 100);
-    }
-
-    applyScrollProgress(0);
+    requestAnimationFrame(tick);
   }
 
   /* Wait for layout to settle (Webflow + Lenis both init on DOMContentLoaded) */
   function trySetup() {
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function () { setTimeout(setup, 500); });
+      document.addEventListener('DOMContentLoaded', function () { setTimeout(setup, 0); });
     } else {
-      setTimeout(setup, 500);
+      setTimeout(setup, 0);
     }
   }
 
