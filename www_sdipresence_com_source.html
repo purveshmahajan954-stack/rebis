@@ -2367,9 +2367,13 @@ html { scroll-behavior: smooth; }
 /* The custom scroll-line is decorative only and must never cover the footer
    content or make the footer look like a blank second page. */
 #rgi-snake-wr {
-  /* Keep the scroll path above page sections so it remains visible while
-     moving from the header toward the footer. pointer-events stays disabled. */
-  z-index: 60 !important;
+  /* Snake renders behind all page content — sections sit above it via z-index. */
+  z-index: 1 !important;
+}
+/* Lift every section above the fixed snake overlay */
+.section, .navbar, .nav-bar-section, .footer-section {
+  position: relative;
+  z-index: 2;
 }
 
 @media (max-width: 767px) {
@@ -2662,7 +2666,7 @@ html { scroll-behavior: smooth; }
   top: 0; left: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 500;           /* above Webflow sections; pointer-events:none so no blocking */
+  z-index: 1;
   overflow: visible;
 }
 #rgi-snake-svg { overflow: visible; display: block; }
