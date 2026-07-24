@@ -1645,16 +1645,43 @@ document.addEventListener("DOMContentLoaded", function () {
 -->
 
 
-<!-- Lenis (improved init) -->
+<!-- Lenis (optional enhancement; native scrolling remains the fallback) -->
 <script defer src="https://unpkg.com/lenis@1.1.16/dist/lenis.min.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  // init Lenis
-  const lenis = new Lenis({
-    prevent: (node) => node.classList.contains('w-reset'),
-    duration: 1,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-  });
+  // The imported Webflow snapshot can load before the optional CDN script.
+  // Never let a missing/late Lenis script disable the page's native scrolling.
+  const LenisConstructor = window.Lenis;
+  let lenis;
+
+  if (typeof LenisConstructor === 'function') {
+    lenis = new LenisConstructor({
+      prevent: (node) => node.classList.contains('w-reset'),
+      duration: 1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+    });
+  } else {
+    lenis = {
+      start: function () {
+        document.documentElement.classList.remove('lenis-stopped');
+        document.body.classList.remove('body-lock');
+        document.documentElement.style.removeProperty('overflow');
+        document.body.style.removeProperty('overflow');
+      },
+      stop: function () {
+        document.documentElement.classList.add('lenis-stopped');
+        document.body.classList.add('body-lock');
+      },
+      scrollTo: function (target, opts) {
+        var top = typeof target === 'number'
+          ? target
+          : (target && target.getBoundingClientRect().top + window.pageYOffset);
+        if (typeof top !== 'number' || !isFinite(top)) return;
+        window.scrollTo({ top: Math.max(0, top + ((opts && opts.offset) || 0)), behavior: 'smooth' });
+      },
+      raf: function () {}
+    };
+  }
 
   // expose globally so other scripts can call lenis.scrollTo(...)
   window.lenis = lenis;
@@ -1692,17 +1719,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // start RAF loop
   function raf(time) {
-    lenis.raf(time);
+    if (typeof lenis.raf === 'function') lenis.raf(time);
     requestAnimationFrame(raf);
   }
   requestAnimationFrame(raf);
 
   // preserved existing handlers (start/stop/toggle)
-  $("[data-lenis-start]").on("click", function () { lenis.start(); });
-  $("[data-lenis-stop]").on("click", function () { lenis.stop(); });
-  $("[data-lenis-toggle]").on("click", function () {
-    $(this).toggleClass("stop-scroll");
-    if ($(this).hasClass("stop-scroll")) lenis.stop(); else lenis.start();
+  if (window.jQuery) {
+    $("[data-lenis-start]").on("click", function () { lenis.start(); });
+    $("[data-lenis-stop]").on("click", function () { lenis.stop(); });
+  }
+  document.querySelectorAll("[data-lenis-toggle]").forEach(function (toggle) {
+    toggle.addEventListener("click", function () {
+      this.classList.toggle("stop-scroll");
+      if (this.classList.contains("stop-scroll")) lenis.stop(); else lenis.start();
+    });
   });
 });
 </script>
