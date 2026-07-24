@@ -561,6 +561,14 @@ html.lenis, html.lenis body {
 </style><link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<script>
+  /* Always open the home snapshot at the hero instead of restoring a stale
+     scroll position from the fixed-footer version of the imported site. */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.addEventListener('pageshow', function () {
+    if (!window.location.hash) window.scrollTo(0, 0);
+  });
+</script>
 <style>
 .hero-title-head-wrapper h1,
 .hero-title-head-wrapper .heading-black-blue-gradient {
@@ -955,7 +963,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /* Fix: footer-section fixed positioning causes CTA button to float over footer */
 .footer-section.is-footer-fixed {
+  /* The imported Webflow rule makes this footer fixed on desktop. That
+     leaves the home page looking like it starts at the footer when the
+     snapshot is opened in a proxied preview. Keep the footer in document
+     flow instead. */
   position: relative !important;
+  inset: auto !important;
+  bottom: auto !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  min-height: 520px !important;
+  height: auto !important;
+  margin-top: 0 !important;
+  padding-top: 5rem !important;
+  padding-bottom: 0 !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  color: #ffffff !important;
+  background:
+    radial-gradient(circle at 78% 12%, rgba(101, 172, 255, .2), transparent 34%),
+    linear-gradient(145deg, #061b59 0%, #0a2d82 52%, #013b9a 100%) !important;
 }
 
 /* Fix: collapse Webflow's footer spacer div — not needed since footer is now relative */
@@ -2235,6 +2268,40 @@ html { scroll-behavior: smooth; }
     #2456d1 80%,
     transparent 100%);
   z-index: 10;
+}
+
+/* Keep the CDN decoration optional. The footer must remain readable if the
+   remote Webflow SVG is unavailable in a Replit preview or deployment. */
+.footer-section.is-footer-fixed > .footer-image {
+  z-index: 0 !important;
+  opacity: .24 !important;
+  object-fit: cover !important;
+  pointer-events: none !important;
+}
+.footer-section.is-footer-fixed > .is-footer {
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+}
+.footer-section.is-footer-fixed .footer-image-wrapper,
+.footer-section.is-footer-fixed .footer-content-wrapper,
+.footer-section.is-footer-fixed .footer-content-container,
+.footer-section.is-footer-fixed .footer-right-section-wrapper {
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+/* The custom scroll-line is decorative only and must never cover the footer
+   content or make the footer look like a blank second page. */
+#rgi-snake-wr {
+  z-index: 1 !important;
+}
+
+@media (max-width: 767px) {
+  .footer-section.is-footer-fixed {
+    min-height: 0 !important;
+    padding-top: 3.5rem !important;
+  }
 }
 
 /* Footer links — smooth underline reveal */
