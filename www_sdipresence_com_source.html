@@ -1008,7 +1008,8 @@ document.addEventListener("DOMContentLoaded", function () {
   padding: 2rem 0 0 !important;
   overflow: hidden !important;
   position: relative;
-  z-index: 2;
+  /* Keep CTA copy above the page-wide snake overlay. */
+  z-index: 61 !important;
   background: #ffffff !important;
   border-radius: 0 0 3rem 3rem;
 }
@@ -1024,7 +1025,7 @@ document.addEventListener("DOMContentLoaded", function () {
 }
 .section.home-cta .home-cta-content {
   position: relative;
-  z-index: 3;
+  z-index: 70 !important;
   overflow: visible !important;
   gap: 1.25rem !important;
   max-width: 760px !important;
@@ -1086,7 +1087,7 @@ document.addEventListener("DOMContentLoaded", function () {
   opacity: .72 !important;
 }
 .section.home-cta .cta-btn-container {
-  z-index: 8 !important;
+  z-index: 70 !important;
   position: absolute !important;
   top: 0 !important;
   left: 50% !important;
@@ -2351,7 +2352,8 @@ html { scroll-behavior: smooth; }
 }
 .footer-section.is-footer-fixed > .is-footer {
   position: relative !important;
-  z-index: 2 !important;
+  /* Footer content stays readable when the snake reaches the bottom. */
+  z-index: 61 !important;
   width: 100% !important;
 }
 .footer-section.is-footer-fixed .footer-image-wrapper,
@@ -2365,7 +2367,9 @@ html { scroll-behavior: smooth; }
 /* The custom scroll-line is decorative only and must never cover the footer
    content or make the footer look like a blank second page. */
 #rgi-snake-wr {
-  z-index: 1 !important;
+  /* Keep the scroll path above page sections so it remains visible while
+     moving from the header toward the footer. pointer-events stays disabled. */
+  z-index: 60 !important;
 }
 
 @media (max-width: 767px) {
@@ -2664,15 +2668,15 @@ html { scroll-behavior: smooth; }
 #rgi-snake-svg { overflow: visible; display: block; }
 #rgi-snake-trail {
   fill: none;
-  stroke: rgba(59,130,246,0.18);
-  stroke-width: 2;
+  stroke: rgba(59,130,246,0.34);
+  stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 #rgi-snake-path {
   fill: none;
   stroke: url(#rgi-snake-grad);
-  stroke-width: 3.5;
+  stroke-width: 4;
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: url(#rgi-glow);
@@ -2680,8 +2684,8 @@ html { scroll-behavior: smooth; }
 /* Moving highlight window always visible in viewport */
 #rgi-snake-highlight {
   fill: none;
-  stroke: rgba(147,200,255,0.55);
-  stroke-width: 3;
+  stroke: rgba(147,200,255,0.78);
+  stroke-width: 3.5;
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: url(#rgi-glow);
