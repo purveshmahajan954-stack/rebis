@@ -2480,8 +2480,9 @@ html { scroll-behavior: smooth; }
   position: absolute;
   top: 0; left: 0;
   width: 100%;
+  height: 0;
   pointer-events: none;
-  z-index: 0;          /* behind all page content, above background */
+  z-index: 1;          /* above the page background, below the header */
   overflow: visible;
 }
 #rgi-snake-svg { overflow: visible; display: block; }
@@ -2528,7 +2529,10 @@ html { scroll-behavior: smooth; }
 
   function setup() {
     /* ── Measure ── */
-    var container = document.querySelector('.scrolled-content') || document.body;
+    /* Keep the line in document coordinates. Nesting it inside the Webflow
+       scrolling wrapper makes it appear stuck at the top in the Replit
+       preview when Lenis/native scrolling take different paths. */
+    var container = document.body;
     var W     = document.documentElement.clientWidth;
 
     /* Stop the snake at the bottom of the cases/products section */
@@ -2545,6 +2549,9 @@ html { scroll-behavior: smooth; }
     var startY = navEl ? navEl.offsetHeight + 12 : 80;
 
     /* ── Build DOM ── */
+    var existing = document.getElementById('rgi-snake-wr');
+    if (existing) existing.remove();
+
     var wr = document.createElement('div');
     wr.id = 'rgi-snake-wr';
     wr.style.height = docH + 'px';
@@ -2593,8 +2600,8 @@ html { scroll-behavior: smooth; }
 
     wr.appendChild(svg);
 
-    /* Insert as FIRST child of .scrolled-content so it's in the same
-       stacking context as the page content */
+    /* Insert as the first body child so its absolute coordinates match the
+       document regardless of Webflow/Lenis wrapper behavior. */
     container.style.position = 'relative';
     container.insertBefore(wr, container.firstChild);
 
@@ -2621,32 +2628,38 @@ html { scroll-behavior: smooth; }
       }
     }
 
+    function applyScrollProgress(scrollPosition) {
+      var progressMax = Math.max(1, docH - window.innerHeight);
+      var scroll = typeof scrollPosition === 'number'
+        ? scrollPosition
+        : (window.pageYOffset || document.documentElement.scrollTop || 0);
+      applyProgress(scroll / progressMax);
+    }
+
+    /* Always listen to native scroll. This remains reliable even when Lenis
+       is loaded late or its event payload has no global progress value. */
+    window.addEventListener('scroll', function () {
+      applyScrollProgress();
+    }, { passive: true });
+
     function attachLenis() {
-      if (window.lenis) {
-        window.lenis.on('scroll', function (e) {
-          applyProgress(e.progress);
-        });
-        return true;
-      }
-      return false;
+      if (!window.lenis || typeof window.lenis.on !== 'function') return false;
+      window.lenis.on('scroll', function (e) {
+        applyScrollProgress(e && typeof e.scroll === 'number' ? e.scroll : undefined);
+      });
+      return true;
     }
 
     if (!attachLenis()) {
-      /* Lenis not ready yet — poll briefly, then fall back */
+      /* Lenis may be loaded after this script; native scrolling already works. */
       var tries = 0;
-      var poll  = setInterval(function () {
+      var poll = setInterval(function () {
         tries++;
         if (attachLenis() || tries > 40) clearInterval(poll);
       }, 100);
-
-      /* Immediate native scroll fallback */
-      window.addEventListener('scroll', function () {
-        var max  = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-        applyProgress((window.pageYOffset || document.documentElement.scrollTop) / max);
-      }, { passive: true });
     }
 
-    applyProgress(0);
+    applyScrollProgress(0);
   }
 
   /* Wait for layout to settle (Webflow + Lenis both init on DOMContentLoaded) */
