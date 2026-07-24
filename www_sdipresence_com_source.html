@@ -973,13 +973,37 @@ document.addEventListener("DOMContentLoaded", function () {
    mostly empty section above the footer. */
 .section.home-cta {
   padding-bottom: 0 !important;
+  padding-top: 6.25rem !important;
+  overflow: visible !important;
+  position: relative;
+  z-index: 2;
 }
 .section.home-cta .home-cta-anims {
   display: none !important;
 }
+.section.home-cta .home-cta-content {
+  position: relative;
+  z-index: 3;
+  overflow: visible !important;
+}
+.section.home-cta .home-cta-content h2,
+.section.home-cta .home-cta-content > div {
+  opacity: 1 !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+.section.home-cta .home-cta-content h2 {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  line-height: 1.12 !important;
+  overflow: visible !important;
+}
 
 /* Fix: reduce excess blue space in CTA animation area on mobile */
 @media (max-width: 767px) {
+  .section.home-cta {
+    padding-top: 4rem !important;
+  }
   .home-cta-anims {
     max-height: 140px;
     overflow: hidden;
