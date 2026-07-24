@@ -2520,29 +2520,38 @@ html { scroll-behavior: smooth; }
   top: 0; left: 0;
   width: 100%; height: 100%;
   pointer-events: none;
-  z-index: 2;
+  z-index: 500;           /* above Webflow sections; pointer-events:none so no blocking */
   overflow: visible;
 }
 #rgi-snake-svg { overflow: visible; display: block; }
 #rgi-snake-trail {
   fill: none;
-  stroke: rgba(101,172,255,0.22);
-  stroke-width: 2.5;
+  stroke: rgba(59,130,246,0.18);
+  stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 #rgi-snake-path {
   fill: none;
   stroke: url(#rgi-snake-grad);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: url(#rgi-glow);
+}
+/* Moving highlight window always visible in viewport */
+#rgi-snake-highlight {
+  fill: none;
+  stroke: rgba(147,200,255,0.55);
   stroke-width: 3;
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: url(#rgi-glow);
 }
 #rgi-snake-dot {
-  fill: #60b4ff;
+  fill: #3b82f6;
   filter: url(#rgi-dot-glow);
-  opacity: 0;
+  opacity: 1;
   transition: opacity .3s;
 }
 </style>
@@ -2619,16 +2628,25 @@ html { scroll-behavior: smooth; }
 
     var pathD = buildPath(W, startY, endY);
 
+    /* 1. Faint full-path trail */
     var trail = document.createElementNS(NS, 'path');
     trail.id  = 'rgi-snake-trail';
     trail.setAttribute('d', pathD);
     svg.appendChild(trail);
 
+    /* 2. Scroll-drawn active line */
     var line  = document.createElementNS(NS, 'path');
     line.id   = 'rgi-snake-path';
     line.setAttribute('d', pathD);
     svg.appendChild(line);
 
+    /* 3. Moving highlight — always visible segment in current viewport */
+    var hl    = document.createElementNS(NS, 'path');
+    hl.id     = 'rgi-snake-highlight';
+    hl.setAttribute('d', pathD);
+    svg.appendChild(hl);
+
+    /* 4. Glowing dot at the tip of the drawn line */
     var dot   = document.createElementNS(NS, 'circle');
     dot.id    = 'rgi-snake-dot';
     dot.setAttribute('r',  '7');
@@ -2636,44 +2654,55 @@ html { scroll-behavior: smooth; }
     dot.setAttribute('cy', startY);
     svg.appendChild(dot);
 
-    /* Wrapper (fixed, full-viewport) */
+    /* Insert wrapper */
     var wr = document.createElement('div');
     wr.id  = 'rgi-snake-wr';
     wr.appendChild(svg);
     document.body.insertBefore(wr, document.body.firstChild);
 
-    /* Dash-array so line draws on scroll */
-    var len = line.getTotalLength();
-    line.setAttribute('stroke-dasharray',  len);
-    line.setAttribute('stroke-dashoffset', len);   /* fully hidden */
+    /* Measure full path length */
+    var len    = line.getTotalLength();
+    var hlLen  = Math.max(len * 0.08, 120); /* highlight window = 8% of path */
 
-    /* rAF loop — reads scroll every frame, works with Lenis & native */
+    /* Active line: fully hidden at start, draws as you scroll */
+    line.setAttribute('stroke-dasharray',  len);
+    line.setAttribute('stroke-dashoffset', len);
+
+    /* Highlight: a moving window segment always in current viewport */
+    hl.setAttribute('stroke-dasharray',  hlLen + ' ' + len);
+    hl.setAttribute('stroke-dashoffset', len); /* starts hidden, moves with scroll */
+
+    /* rAF loop */
     var last = -1;
     function tick() {
       var scroll = getScroll();
       if (scroll !== last) {
         last = scroll;
 
-        /* Shift the SVG so "page coordinates" stay correct inside fixed wrapper */
+        /* Keep SVG aligned with page inside fixed wrapper */
         svg.style.transform = 'translateY(-' + scroll + 'px)';
 
-        /* Progress: 0 at top of page, 1 when footer enters view */
+        /* 0→1 as page scrolls from top to just above footer */
         var maxScroll = Math.max(1, endY - window.innerHeight);
-        var p = Math.max(0, Math.min(scroll / maxScroll, 1));
-        var drawn = len * p;
+        var p         = Math.max(0, Math.min(scroll / maxScroll, 1));
+        var drawn     = len * p;
 
+        /* Draw the accumulated line */
         line.setAttribute('stroke-dashoffset', len - drawn);
 
-        if (p > 0.002) {
-          try {
-            var pt = line.getPointAtLength(drawn);
-            dot.setAttribute('cx', pt.x);
-            dot.setAttribute('cy', pt.y);
-            dot.style.opacity = '1';
-          } catch (e) {}
-        } else {
-          dot.style.opacity = '0';
-        }
+        /* Move the highlight window: always leads ~half-viewport ahead of drawn tip */
+        /* Map current scroll position to where on the path the viewport centre is */
+        var viewCentreY   = scroll + window.innerHeight * 0.5;
+        var hlProgress    = Math.max(0, Math.min((viewCentreY - startY) / (endY - startY), 1));
+        var hlOffset      = len - (hlProgress * len) - hlLen / 2;
+        hl.setAttribute('stroke-dashoffset', Math.max(0, hlOffset));
+
+        /* Dot at drawn tip */
+        try {
+          var pt = line.getPointAtLength(Math.max(0, drawn - 1));
+          dot.setAttribute('cx', pt.x);
+          dot.setAttribute('cy', pt.y);
+        } catch (e) {}
       }
       requestAnimationFrame(tick);
     }
