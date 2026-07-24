@@ -1005,19 +1005,30 @@ document.addEventListener("DOMContentLoaded", function () {
    decorative only, so remove its layout footprint rather than leaving a
    mostly empty section above the footer. */
 .section.home-cta {
-  padding-bottom: 0 !important;
-  padding-top: 6.25rem !important;
-  overflow: visible !important;
+  padding: 2rem 0 0 !important;
+  overflow: hidden !important;
   position: relative;
   z-index: 2;
+  background: #ffffff !important;
+  border-radius: 0 0 3rem 3rem;
 }
 .section.home-cta .home-cta-anims {
-  display: none !important;
+  display: flex !important;
+  position: relative !important;
+  height: 145px !important;
+  min-height: 145px !important;
+  margin-top: 1.75rem !important;
+  overflow: hidden !important;
+  justify-content: flex-start !important;
+  align-items: flex-start !important;
 }
 .section.home-cta .home-cta-content {
   position: relative;
   z-index: 3;
   overflow: visible !important;
+  gap: 1.25rem !important;
+  max-width: 760px !important;
+  padding: 0 1.5rem !important;
 }
 .section.home-cta .home-cta-content h2,
 .section.home-cta .home-cta-content > div {
@@ -1030,32 +1041,92 @@ document.addEventListener("DOMContentLoaded", function () {
   margin-bottom: 0 !important;
   line-height: 1.12 !important;
   overflow: visible !important;
+  max-width: 620px !important;
+  font-size: clamp(2rem, 4vw, 3.15rem) !important;
+  text-align: center !important;
+}
+.section.home-cta .home-cta-content > div {
+  font-size: 1rem !important;
+  line-height: 1.45 !important;
+  text-align: center !important;
+}
+.section.home-cta .home-cta-anims-code-wr {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: 145px !important;
+}
+.section.home-cta .home-cta-anims-code-2 {
+  z-index: 1 !important;
+  width: min(37rem, 58vw) !important;
+  height: 47rem !important;
+}
+.section.home-cta .home-cta-anims-code-box {
+  z-index: 2 !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 145px !important;
+  min-height: 145px !important;
+  overflow: hidden !important;
+}
+.section.home-cta .home-cta-anims-code-img {
+  width: min(64rem, 100vw) !important;
+  height: 145px !important;
+  min-height: 145px !important;
+  opacity: .2 !important;
+  background-attachment: scroll !important;
+}
+.section.home-cta .home-cta-anims-grad {
+  width: min(50rem, 78vw) !important;
+  height: 9rem !important;
+  top: 50% !important;
+  transform: translateY(-18%) !important;
+  opacity: .72 !important;
+}
+.section.home-cta .cta-btn-container {
+  z-index: 8 !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  margin: 0 !important;
+}
+.section.home-cta .cta-btn-container .button-over-blue {
+  min-width: 13.5rem !important;
+}
+.section.home-cta .cta-btn-container .button {
+  border-radius: 999px !important;
 }
 
 /* Fix: reduce excess blue space in CTA animation area on mobile */
 @media (max-width: 767px) {
   .section.home-cta {
-    padding-top: 4rem !important;
+    padding-top: 1.75rem !important;
   }
-  .home-cta-anims {
-    max-height: 140px;
-    overflow: hidden;
+  .section.home-cta .home-cta-anims {
+    height: 125px !important;
+    min-height: 125px !important;
+    margin-top: 1.5rem !important;
   }
-  .home-cta-anims-code-box,
-  .home-cta-anims-code-wr {
-    max-height: 140px;
-    height: 140px !important;
-    overflow: hidden;
+  .section.home-cta .home-cta-anims-code-box,
+  .section.home-cta .home-cta-anims-code-wr,
+  .section.home-cta .home-cta-anims-code-img {
+    height: 125px !important;
+    min-height: 125px !important;
   }
 }
 @media (max-width: 479px) {
-  .home-cta-anims {
-    max-height: 110px;
-  }
-  .home-cta-anims-code-box,
-  .home-cta-anims-code-wr {
-    max-height: 110px;
+  .section.home-cta .home-cta-anims {
     height: 110px !important;
+    min-height: 110px !important;
+  }
+  .section.home-cta .home-cta-anims-code-box,
+  .section.home-cta .home-cta-anims-code-wr,
+  .section.home-cta .home-cta-anims-code-img {
+    height: 110px !important;
+    min-height: 110px !important;
   }
 }
 
@@ -2781,6 +2852,30 @@ html { scroll-behavior: smooth; }
     document.addEventListener('DOMContentLoaded', function () { setTimeout(setup, 300); });
   } else {
     setTimeout(setup, 300);
+  }
+})();
+</script>
+
+<!-- Match the strategic IT CTA reference while keeping the existing Rebis
+     page structure and contact destination intact. -->
+<script>
+(function () {
+  function updateCtaCopy() {
+    var cta = document.querySelector('.section.home-cta');
+    if (!cta) return;
+    cta.id = 'home-cta-preview';
+    var heading = cta.querySelector('.home-cta-content h2');
+    var description = cta.querySelector('.home-cta-content > div');
+    var button = cta.querySelector('.cta-btn-container .support-button-text');
+    if (heading) heading.textContent = 'Looking for Strategic IT Expertise?';
+    if (description) description.textContent =
+      'We blend deep technical capabilities with community-focused values.';
+    if (button) button.textContent = 'Work with SDI';
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', updateCtaCopy);
+  } else {
+    updateCtaCopy();
   }
 })();
 </script>
