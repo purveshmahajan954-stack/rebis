@@ -1005,8 +1005,8 @@ document.addEventListener("DOMContentLoaded", function () {
    decorative only, so remove its layout footprint rather than leaving a
    mostly empty section above the footer. */
 .section.home-cta {
-  padding: 2rem 0 0 !important;
-  overflow: hidden !important;
+  padding: 3rem 0 0 !important;
+  overflow: visible !important;
   position: relative;
   /* Keep CTA copy above the page-wide snake overlay. */
   z-index: 61 !important;
@@ -2860,28 +2860,5 @@ html { scroll-behavior: smooth; }
 })();
 </script>
 
-<!-- Match the strategic IT CTA reference while keeping the existing Rebis
-     page structure and contact destination intact. -->
-<script>
-(function () {
-  function updateCtaCopy() {
-    var cta = document.querySelector('.section.home-cta');
-    if (!cta) return;
-    cta.id = 'home-cta-preview';
-    var heading = cta.querySelector('.home-cta-content h2');
-    var description = cta.querySelector('.home-cta-content > div');
-    var button = cta.querySelector('.cta-btn-container .support-button-text');
-    if (heading) heading.textContent = 'Looking for Strategic IT Expertise?';
-    if (description) description.textContent =
-      'We blend deep technical capabilities with community-focused values.';
-    if (button) button.textContent = 'Work with SDI';
-  }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateCtaCopy);
-  } else {
-    updateCtaCopy();
-  }
-})();
-</script>
 
 </body></html><!--/$-->
