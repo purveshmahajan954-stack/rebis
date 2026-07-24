@@ -961,27 +961,44 @@ document.addEventListener("DOMContentLoaded", function () {
 /* Fix: collapse Webflow's footer spacer div — not needed since footer is now relative */
 .empty {
   display: none !important;
+  height: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Fix: Webflow's CTA animation reserves a large blank block immediately
+   before the footer when the CDN animation is unavailable. The animation is
+   decorative only, so remove its layout footprint rather than leaving a
+   mostly empty section above the footer. */
+.section.home-cta {
+  padding-bottom: 0 !important;
+}
+.section.home-cta .home-cta-anims {
+  display: none !important;
 }
 
 /* Fix: reduce excess blue space in CTA animation area on mobile */
 @media (max-width: 767px) {
   .home-cta-anims {
-    max-height: 180px;
+    max-height: 140px;
     overflow: hidden;
   }
   .home-cta-anims-code-box,
   .home-cta-anims-code-wr {
-    max-height: 180px;
+    max-height: 140px;
+    height: 140px !important;
     overflow: hidden;
   }
 }
 @media (max-width: 479px) {
   .home-cta-anims {
-    max-height: 130px;
+    max-height: 110px;
   }
   .home-cta-anims-code-box,
   .home-cta-anims-code-wr {
-    max-height: 130px;
+    max-height: 110px;
+    height: 110px !important;
   }
 }
 
