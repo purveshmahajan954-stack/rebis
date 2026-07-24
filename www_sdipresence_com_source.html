@@ -2518,32 +2518,32 @@ html { scroll-behavior: smooth; }
 #rgi-snake-wr {
   position: fixed;
   top: 0; left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   pointer-events: none;
   z-index: 2;
   overflow: visible;
 }
 #rgi-snake-svg { overflow: visible; display: block; }
-
 #rgi-snake-trail {
   fill: none;
-  stroke: rgba(101,172,255,0.45);
-  stroke-width: 3;
+  stroke: rgba(101,172,255,0.22);
+  stroke-width: 2.5;
   stroke-linecap: round;
+  stroke-linejoin: round;
 }
 #rgi-snake-path {
   fill: none;
-  stroke: url(#snake-grad);
-  stroke-width: 2.5;
+  stroke: url(#rgi-snake-grad);
+  stroke-width: 3;
   stroke-linecap: round;
+  stroke-linejoin: round;
   filter: url(#rgi-glow);
 }
 #rgi-snake-dot {
-  fill: #7ec8ff;
+  fill: #60b4ff;
   filter: url(#rgi-dot-glow);
   opacity: 0;
-  transition: opacity .3s ease;
+  transition: opacity .3s;
 }
 </style>
 
@@ -2551,147 +2551,141 @@ html { scroll-behavior: smooth; }
 (function () {
   'use strict';
 
-  function buildPath(W, startY, docH) {
+  /* Sinusoidal wavy path from (cx, startY) to (cx, endY) */
+  function buildPath(W, startY, endY) {
     var cx   = W / 2;
-    var amp  = Math.min(W * 0.25, 250);
-    var half = 460;
+    var amp  = Math.min(W * 0.22, 220);   /* horizontal swing */
+    var seg  = 480;                        /* vertical period   */
     var d    = 'M ' + cx + ' ' + startY;
     var y    = startY;
-    var side = 1;
-    while (y < docH + half) {
-      d   += ' Q ' + (cx + side * amp) + ' ' + (y + half / 2) + ' ' + cx + ' ' + (y + half);
-      y   += half;
-      side = -side;
+    var dir  = 1;
+    while (y < endY) {
+      var ny = Math.min(y + seg, endY);
+      var cy = y + (ny - y) / 2;
+      d  += ' Q ' + (cx + dir * amp) + ' ' + cy + ' ' + cx + ' ' + ny;
+      y   = ny;
+      dir = -dir;
     }
     return d;
   }
 
+  function getScroll() {
+    if (window.lenis && typeof window.lenis.scroll === 'number') return window.lenis.scroll;
+    return window.pageYOffset || document.documentElement.scrollTop || 0;
+  }
+
   function setup() {
-    /* ── Measure ── */
-    /* Keep the line in document coordinates. Nesting it inside the Webflow
-       scrolling wrapper makes it appear stuck at the top in the Replit
-       preview when Lenis/native scrolling take different paths. */
-    var container = document.body;
-    var W     = document.documentElement.clientWidth;
+    var W = document.documentElement.clientWidth;
 
-    /* Extend snake to full page height */
-    var docH = Math.max(container.scrollHeight, document.documentElement.scrollHeight);
-    var navEl = document.querySelector('.w-nav');
-    var startY = navEl ? navEl.offsetHeight + 12 : 80;
+    /* Start: just below the navbar */
+    var nav    = document.querySelector('.header.w-nav, .w-nav');
+    var startY = nav ? nav.getBoundingClientRect().bottom + getScroll() + 8 : 80;
 
-    /* ── Build DOM ── */
-    var existing = document.getElementById('rgi-snake-wr');
-    if (existing) existing.remove();
+    /* End: just above the footer */
+    var footer = document.querySelector('.footer-section');
+    var endY   = footer
+      ? footer.getBoundingClientRect().top + getScroll() - 24
+      : Math.max(document.body.scrollHeight, document.documentElement.scrollHeight) - 40;
 
-    var wr = document.createElement('div');
-    wr.id = 'rgi-snake-wr';
+    if (endY <= startY) return;   /* nothing to draw */
 
+    /* Remove old instance */
+    var old = document.getElementById('rgi-snake-wr');
+    if (old) old.remove();
+
+    /* Build SVG */
     var NS  = 'http://www.w3.org/2000/svg';
     var svg = document.createElementNS(NS, 'svg');
     svg.id  = 'rgi-snake-svg';
-    svg.setAttribute('width', '100%');
-    svg.setAttribute('height', docH);
+    svg.setAttribute('width',  '100%');
+    svg.setAttribute('height', endY + 40);
 
     var defs = document.createElementNS(NS, 'defs');
     defs.innerHTML =
-      '<linearGradient id="snake-grad" x1="0" y1="0" x2="0" y2="1">' +
-        '<stop offset="0%"   stop-color="#a8d8ff" stop-opacity="0.9"/>' +
-        '<stop offset="40%"  stop-color="#4a90e2"/>' +
-        '<stop offset="100%" stop-color="#2456d1"/>' +
+      '<linearGradient id="rgi-snake-grad" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%"   stop-color="#93c8ff" stop-opacity="1"/>' +
+        '<stop offset="50%"  stop-color="#3b82f6"/>' +
+        '<stop offset="100%" stop-color="#1d4ed8"/>' +
       '</linearGradient>' +
-      '<filter id="rgi-glow" x="-60%" y="-5%" width="220%" height="110%">' +
-        '<feGaussianBlur in="SourceGraphic" stdDeviation="5" result="b"/>' +
-        '<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>' +
+      '<filter id="rgi-glow" x="-80%" y="-10%" width="260%" height="120%">' +
+        '<feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>' +
+        '<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>' +
       '</filter>' +
-      '<filter id="rgi-dot-glow" x="-300%" y="-300%" width="700%" height="700%">' +
-        '<feGaussianBlur in="SourceGraphic" stdDeviation="7" result="b"/>' +
-        '<feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>' +
+      '<filter id="rgi-dot-glow" x="-400%" y="-400%" width="900%" height="900%">' +
+        '<feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>' +
+        '<feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>' +
       '</filter>';
     svg.appendChild(defs);
 
-    var pathD  = buildPath(W, startY, docH);
+    var pathD = buildPath(W, startY, endY);
 
-    var trail  = document.createElementNS(NS, 'path');
-    trail.id   = 'rgi-snake-trail';
+    var trail = document.createElementNS(NS, 'path');
+    trail.id  = 'rgi-snake-trail';
     trail.setAttribute('d', pathD);
     svg.appendChild(trail);
 
-    var line   = document.createElementNS(NS, 'path');
-    line.id    = 'rgi-snake-path';
+    var line  = document.createElementNS(NS, 'path');
+    line.id   = 'rgi-snake-path';
     line.setAttribute('d', pathD);
     svg.appendChild(line);
 
-    var dot = document.createElementNS(NS, 'circle');
-    dot.id  = 'rgi-snake-dot';
-    dot.setAttribute('r', '6');
+    var dot   = document.createElementNS(NS, 'circle');
+    dot.id    = 'rgi-snake-dot';
+    dot.setAttribute('r',  '7');
     dot.setAttribute('cx', W / 2);
     dot.setAttribute('cy', startY);
     svg.appendChild(dot);
 
+    /* Wrapper (fixed, full-viewport) */
+    var wr = document.createElement('div');
+    wr.id  = 'rgi-snake-wr';
     wr.appendChild(svg);
+    document.body.insertBefore(wr, document.body.firstChild);
 
-    /* Insert as the first body child so its absolute coordinates match the
-       document regardless of Webflow/Lenis wrapper behavior. */
-    container.style.position = 'relative';
-    container.insertBefore(wr, container.firstChild);
-
-    /* ── Total path length ── */
+    /* Dash-array so line draws on scroll */
     var len = line.getTotalLength();
     line.setAttribute('stroke-dasharray',  len);
-    line.setAttribute('stroke-dashoffset', len);   /* hidden at start */
+    line.setAttribute('stroke-dashoffset', len);   /* fully hidden */
 
-    /* ── Drive animation via rAF loop — most reliable across Lenis variants ── */
-    var lastScroll = -1;
-
-    function applyProgress(p) {
-      p = Math.max(0, Math.min(p, 1));
-      var drawn = len * p;
-      line.setAttribute('stroke-dashoffset', len - drawn);
-      if (p > 0.005) {
-        try {
-          var pt = line.getPointAtLength(drawn);
-          dot.setAttribute('cx', pt.x);
-          dot.setAttribute('cy', pt.y);
-          dot.style.opacity = '1';
-        } catch (e) {}
-      } else {
-        dot.style.opacity = '0';
-      }
-    }
-
-    function getScroll() {
-      /* Try Lenis first (gives smooth virtual position), then native */
-      if (window.lenis && typeof window.lenis.scroll === 'number') {
-        return window.lenis.scroll;
-      }
-      return window.pageYOffset || document.documentElement.scrollTop || 0;
-    }
-
+    /* rAF loop — reads scroll every frame, works with Lenis & native */
+    var last = -1;
     function tick() {
       var scroll = getScroll();
-      if (scroll !== lastScroll) {
-        lastScroll = scroll;
-        /* Translate SVG so the fixed wrapper tracks the page */
+      if (scroll !== last) {
+        last = scroll;
+
+        /* Shift the SVG so "page coordinates" stay correct inside fixed wrapper */
         svg.style.transform = 'translateY(-' + scroll + 'px)';
-        var progressMax = Math.max(1, docH - window.innerHeight);
-        applyProgress(scroll / progressMax);
+
+        /* Progress: 0 at top of page, 1 when footer enters view */
+        var maxScroll = Math.max(1, endY - window.innerHeight);
+        var p = Math.max(0, Math.min(scroll / maxScroll, 1));
+        var drawn = len * p;
+
+        line.setAttribute('stroke-dashoffset', len - drawn);
+
+        if (p > 0.002) {
+          try {
+            var pt = line.getPointAtLength(drawn);
+            dot.setAttribute('cx', pt.x);
+            dot.setAttribute('cy', pt.y);
+            dot.style.opacity = '1';
+          } catch (e) {}
+        } else {
+          dot.style.opacity = '0';
+        }
       }
       requestAnimationFrame(tick);
     }
-
     requestAnimationFrame(tick);
   }
 
-  /* Wait for layout to settle (Webflow + Lenis both init on DOMContentLoaded) */
-  function trySetup() {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', function () { setTimeout(setup, 0); });
-    } else {
-      setTimeout(setup, 0);
-    }
+  /* Run after full layout is ready */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function () { setTimeout(setup, 300); });
+  } else {
+    setTimeout(setup, 300);
   }
-
-  trySetup();
 })();
 </script>
 
