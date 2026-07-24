@@ -1005,8 +1005,8 @@ document.addEventListener("DOMContentLoaded", function () {
    decorative only, so remove its layout footprint rather than leaving a
    mostly empty section above the footer. */
 .section.home-cta {
-  padding: 3rem 0 0 !important;
-  overflow: visible !important;
+  padding: 3.5rem 0 0 !important;
+  overflow: hidden !important;
   position: relative;
   /* Keep CTA copy above the page-wide snake overlay. */
   z-index: 61 !important;
@@ -1016,11 +1016,11 @@ document.addEventListener("DOMContentLoaded", function () {
 .section.home-cta .home-cta-anims {
   display: flex !important;
   position: relative !important;
-  height: 145px !important;
-  min-height: 145px !important;
-  margin-top: 1.75rem !important;
+  height: 220px !important;
+  min-height: 220px !important;
+  margin-top: 2rem !important;
   overflow: hidden !important;
-  justify-content: flex-start !important;
+  justify-content: center !important;
   align-items: flex-start !important;
 }
 .section.home-cta .home-cta-content {
@@ -1030,6 +1030,9 @@ document.addEventListener("DOMContentLoaded", function () {
   gap: 1.25rem !important;
   max-width: 760px !important;
   padding: 0 1.5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 .section.home-cta .home-cta-content h2,
 .section.home-cta .home-cta-content > div {
@@ -1051,45 +1054,61 @@ document.addEventListener("DOMContentLoaded", function () {
   line-height: 1.45 !important;
   text-align: center !important;
 }
+/* Animation wrapper: flex row so left SVG on left, right SVG on right */
 .section.home-cta .home-cta-anims-code-wr {
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
   max-width: none !important;
-  height: 145px !important;
+  height: 220px !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: flex-start !important;
+  overflow: hidden !important;
 }
+/* Both SVG elements — left Lottie and right static SVG */
 .section.home-cta .home-cta-anims-code-2 {
   z-index: 1 !important;
-  width: min(37rem, 58vw) !important;
-  height: 47rem !important;
+  width: min(42rem, 54vw) !important;
+  height: 52rem !important;
+  flex-shrink: 0 !important;
+}
+/* Flip the right-hand SVG so its paths mirror the left side and
+   both sets of lines converge at the screen centre where the button sits */
+.section.home-cta .home-cta-anims-code-2.is-reverse {
+  transform: scaleX(-1) !important;
 }
 .section.home-cta .home-cta-anims-code-box {
   z-index: 2 !important;
   position: absolute !important;
   inset: 0 !important;
   width: 100% !important;
-  height: 145px !important;
-  min-height: 145px !important;
+  height: 220px !important;
+  min-height: 220px !important;
   overflow: hidden !important;
 }
 .section.home-cta .home-cta-anims-code-img {
   width: min(64rem, 100vw) !important;
-  height: 145px !important;
-  min-height: 145px !important;
+  height: 220px !important;
+  min-height: 220px !important;
   opacity: .2 !important;
   background-attachment: scroll !important;
 }
+/* Blue glow gradient centred behind the button */
 .section.home-cta .home-cta-anims-grad {
-  width: min(50rem, 78vw) !important;
-  height: 9rem !important;
-  top: 50% !important;
-  transform: translateY(-18%) !important;
-  opacity: .72 !important;
+  width: min(56rem, 84vw) !important;
+  height: 12rem !important;
+  top: 0 !important;
+  left: 50% !important;
+  transform: translateX(-50%) translateY(-10%) !important;
+  opacity: .82 !important;
+  position: absolute !important;
 }
+/* Button sits at the very top centre — exactly where the lines converge */
 .section.home-cta .cta-btn-container {
   z-index: 70 !important;
   position: absolute !important;
-  top: 0 !important;
+  top: 1rem !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
   margin: 0 !important;
@@ -1101,33 +1120,32 @@ document.addEventListener("DOMContentLoaded", function () {
   border-radius: 999px !important;
 }
 
-/* Fix: reduce excess blue space in CTA animation area on mobile */
 @media (max-width: 767px) {
   .section.home-cta {
-    padding-top: 1.75rem !important;
+    padding-top: 2rem !important;
   }
   .section.home-cta .home-cta-anims {
-    height: 125px !important;
-    min-height: 125px !important;
+    height: 180px !important;
+    min-height: 180px !important;
     margin-top: 1.5rem !important;
   }
   .section.home-cta .home-cta-anims-code-box,
   .section.home-cta .home-cta-anims-code-wr,
   .section.home-cta .home-cta-anims-code-img {
-    height: 125px !important;
-    min-height: 125px !important;
+    height: 180px !important;
+    min-height: 180px !important;
   }
 }
 @media (max-width: 479px) {
   .section.home-cta .home-cta-anims {
-    height: 110px !important;
-    min-height: 110px !important;
+    height: 150px !important;
+    min-height: 150px !important;
   }
   .section.home-cta .home-cta-anims-code-box,
   .section.home-cta .home-cta-anims-code-wr,
   .section.home-cta .home-cta-anims-code-img {
-    height: 110px !important;
-    min-height: 110px !important;
+    height: 150px !important;
+    min-height: 150px !important;
   }
 }
 
