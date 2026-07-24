@@ -2481,8 +2481,18 @@ html { scroll-behavior: smooth; }
   function setup() {
     /* ── Measure ── */
     var container = document.querySelector('.scrolled-content') || document.body;
-    var docH  = Math.max(container.scrollHeight, document.documentElement.scrollHeight);
     var W     = document.documentElement.clientWidth;
+
+    /* Stop the snake at the bottom of the cases/products section */
+    var stopEl = document.querySelector('.section.home-cases');
+    var docH;
+    if (stopEl) {
+      var rect = stopEl.getBoundingClientRect();
+      var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      docH = rect.bottom + scrollTop;
+    } else {
+      docH = Math.max(container.scrollHeight, document.documentElement.scrollHeight);
+    }
     var navEl = document.querySelector('.w-nav');
     var startY = navEl ? navEl.offsetHeight + 12 : 80;
 
