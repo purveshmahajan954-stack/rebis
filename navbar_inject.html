@@ -1,0 +1,160 @@
+<!-- Rebis Graphene Navbar — injected into all sub-pages -->
+<style>
+  /* Reset any SDI navbar */
+  [role="banner"].w-nav,
+  .w-nav[data-animation],
+  header.w-nav {
+    display: none !important;
+  }
+
+  #rgi-navbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 99999;
+    background: #ffffff;
+    box-shadow: 0 1px 12px rgba(0,0,0,0.10);
+    font-family: 'Poppins', 'Inter', sans-serif;
+  }
+
+  #rgi-navbar .rgi-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 32px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  #rgi-navbar .rgi-logo img {
+    height: 48px;
+    width: auto;
+    display: block;
+  }
+
+  #rgi-navbar .rgi-links {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    justify-content: center;
+  }
+
+  #rgi-navbar .rgi-link {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #0a2540;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s;
+    white-space: nowrap;
+  }
+
+  #rgi-navbar .rgi-link:hover,
+  #rgi-navbar .rgi-link.active {
+    background: rgba(10,37,64,0.07);
+    color: #1a5cba;
+  }
+
+  #rgi-navbar .rgi-link svg {
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  #rgi-navbar .rgi-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  #rgi-navbar .rgi-search {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    color: #0a2540;
+    display: flex;
+    align-items: center;
+    transition: background 0.18s;
+  }
+  #rgi-navbar .rgi-search:hover { background: rgba(10,37,64,0.07); }
+
+  #rgi-navbar .rgi-talk {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: #0a2540;
+    color: #fff;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.18s, opacity 0.18s;
+    white-space: nowrap;
+  }
+  #rgi-navbar .rgi-talk:hover { background: #1a3a5c; }
+
+  /* Push page content below fixed navbar */
+  body { padding-top: 72px !important; }
+</style>
+
+<nav id="rgi-navbar" role="banner">
+  <div class="rgi-nav-inner">
+    <!-- Logo -->
+    <a href="/" class="rgi-logo" aria-label="Rebis Graphene India — Home">
+      <img src="/impact-images/rebis-logo-transparent.png" alt="Rebis Graphene India Logo" />
+    </a>
+
+    <!-- Nav links -->
+    <div class="rgi-links">
+      <a href="/technology" class="rgi-link" id="rgi-link-technology">
+        Technology
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15.5c-.263 0-.523-.051-.765-.151a1.97 1.97 0 0 1-.649-.434L5.293 9.621 6.707 8.207 12 13.5l5.293-5.293 1.414 1.414L13.414 14.914a1.97 1.97 0 0 1-.649.435A1.986 1.986 0 0 1 12 15.5Z" fill="currentColor"/></svg>
+      </a>
+      <a href="/products" class="rgi-link" id="rgi-link-products">
+        Products
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15.5c-.263 0-.523-.051-.765-.151a1.97 1.97 0 0 1-.649-.434L5.293 9.621 6.707 8.207 12 13.5l5.293-5.293 1.414 1.414L13.414 14.914a1.97 1.97 0 0 1-.649.435A1.986 1.986 0 0 1 12 15.5Z" fill="currentColor"/></svg>
+      </a>
+      <a href="/founder" class="rgi-link" id="rgi-link-founder">
+        Founder
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15.5c-.263 0-.523-.051-.765-.151a1.97 1.97 0 0 1-.649-.434L5.293 9.621 6.707 8.207 12 13.5l5.293-5.293 1.414 1.414L13.414 14.914a1.97 1.97 0 0 1-.649.435A1.986 1.986 0 0 1 12 15.5Z" fill="currentColor"/></svg>
+      </a>
+      <a href="/funding" class="rgi-link" id="rgi-link-funding">
+        Funding
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15.5c-.263 0-.523-.051-.765-.151a1.97 1.97 0 0 1-.649-.434L5.293 9.621 6.707 8.207 12 13.5l5.293-5.293 1.414 1.414L13.414 14.914a1.97 1.97 0 0 1-.649.435A1.986 1.986 0 0 1 12 15.5Z" fill="currentColor"/></svg>
+      </a>
+    </div>
+
+    <!-- Right side -->
+    <div class="rgi-right">
+      <button class="rgi-search" aria-label="Search">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M16 15.058l-4.175-4.175a6.667 6.667 0 1 0-.943.943L15.058 16 16 15.058ZM1.333 6.667a5.333 5.333 0 1 1 10.667 0 5.333 5.333 0 0 1-10.667 0Z" fill="currentColor"/></svg>
+      </button>
+      <a href="/funding" class="rgi-talk">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M16 10.667V16h-5.333a5.34 5.34 0 0 1-4.614-2.667 6.72 6.72 0 0 0 1.495-.165A4.004 4.004 0 0 0 10.667 14.667H14.667V10.667a4.003 4.003 0 0 0-1.514-3.119 6.72 6.72 0 0 0 .18-1.494A5.34 5.34 0 0 1 16 10.667ZM12 6A6 6 0 1 0 0 6v6h6a6.007 6.007 0 0 0 6-6Zm-10.667 0a4.667 4.667 0 1 1 9.334 0A4.671 4.671 0 0 1 6 10.667H1.333V6Z" fill="currentColor"/></svg>
+        Talk to Us
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Highlight active nav link based on current path
+  (function () {
+    var path = window.location.pathname.replace(/\/$/, '');
+    var map = { '/technology': 'technology', '/products': 'products', '/founder': 'founder', '/funding': 'funding' };
+    var key = map[path];
+    if (key) {
+      var el = document.getElementById('rgi-link-' + key);
+      if (el) el.classList.add('active');
+    }
+  })();
+</script>
