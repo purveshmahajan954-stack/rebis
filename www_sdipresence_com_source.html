@@ -2892,5 +2892,16 @@ html { scroll-behavior: smooth; }
 })();
 </script>
 
+<script>
+  // Give the first homepage navigation item a stable, explicit destination.
+  // This avoids depending on visible label text or dynamic CMS navigation data.
+  document.addEventListener('DOMContentLoaded', function () {
+    var technologyLink = document.querySelector('.nav-menu__item:first-child > a.fs-link');
+    if (technologyLink) {
+      technologyLink.href = '/technology';
+      technologyLink.setAttribute('aria-label', 'Technology');
+    }
+  });
+</script>
 
 </body></html><!--/$-->

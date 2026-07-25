@@ -12,6 +12,11 @@ python3 server.py
 ```
 The site is served on port 5000.
 
+- Rebis Graphene homepage: `/`
+- Imported SDI Presence Technology page: `/technology`
+- `/technology` uses the user-uploaded ServiceNow Technology snapshot `attached_assets/www_sdipresence_com_(1)_1784979203935.html`.
+- Other uploaded SDI snapshots in `attached_assets/` are preserved but are not routed.
+
 ## Notes
 - The HTML file is a static snapshot; links to other pages on sdipresence.com will navigate away from Replit.
 - A few cookie-banner and 404 errors appear in the browser console — these are harmless and caused by domain-authorization checks that expect the live domain.

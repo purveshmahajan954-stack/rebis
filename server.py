@@ -7,6 +7,10 @@ PORT = 5000
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
+        # The exact user-uploaded SDI Technology snapshot is exposed at /technology;
+        # the existing Rebis homepage remains available at "/".
+        if self.path in ('/technology', '/technology/'):
+            self.path = '/attached_assets/www_sdipresence_com_(1)_1784979203935.html'
         # Webflow makes XHR calls to /navigation-items/* for dynamic nav content.
         # Return empty JSON so the scripts don't throw uncaught exceptions.
         if self.path.startswith('/navigation-items'):
