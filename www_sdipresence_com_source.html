@@ -2893,15 +2893,93 @@ html { scroll-behavior: smooth; }
 </script>
 
 <script>
-  // Give the first homepage navigation item a stable, explicit destination.
-  // This avoids depending on visible label text or dynamic CMS navigation data.
-  document.addEventListener('DOMContentLoaded', function () {
-    var technologyLink = document.querySelector('.nav-menu__item:first-child > a.fs-link');
-    if (technologyLink) {
-      technologyLink.href = '/technology';
-      technologyLink.setAttribute('aria-label', 'Technology');
+// ── Same-page navbar scroll ──────────────────────────────────────────────
+// Intercepts all nav item clicks and "Talk to Us" so the page never
+// navigates away; instead it smooth-scrolls to the matching section.
+(function () {
+  var NAV_PAGES = { 'Technology': '/technology', 'Products': '/products', 'Founder': '/founder', 'Funding': '/funding' };
+  var NAV_MAP = {};
+
+  function navHeight() {
+    var nav = document.querySelector('.header.w-nav');
+    return nav ? nav.offsetHeight + 8 : 88;
+  }
+
+  function scrollTo(selector) {
+    var target = document.querySelector(selector);
+    if (!target) return;
+    var y = target.getBoundingClientRect().top + window.pageYOffset - navHeight();
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+  // Use capture so we intercept before Webflow/Finsweet handlers
+  document.addEventListener('click', function (e) {
+
+    // ── "Talk to Us" button ─────────────────────────────────────────────
+    if (e.target.closest('.contact-btn')) {
+      e.preventDefault();
+      e.stopPropagation();
+      scrollTo('.section.home-cta, .footer-section');
+      return;
     }
-  });
+
+    // ── Nav dropdown toggles (the visible label area) ───────────────────
+    var toggle = e.target.closest('.nav-new__dropdown-toggle');
+    if (toggle) {
+      var labelEl = toggle.querySelector('.header-nav-item-text');
+      if (labelEl) {
+        var label = labelEl.textContent.trim();
+        if (NAV_PAGES[label]) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = NAV_PAGES[label];
+          return;
+        }
+        if (NAV_MAP[label]) {
+          e.preventDefault();
+          e.stopPropagation();
+          scrollTo(NAV_MAP[label]);
+          return;
+        }
+      }
+    }
+
+    // ── Hidden CMS fs-link anchors (prevent their navigation too) ───────
+    var fsLink = e.target.closest('a.fs-link');
+    if (fsLink) {
+      var item = fsLink.closest('.nav-menu__item');
+      if (item) {
+        var lbl = (item.querySelector('.header-nav-item-text') || {}).textContent;
+        if (lbl && NAV_PAGES[lbl.trim()]) {
+          e.preventDefault();
+          e.stopPropagation();
+          window.location.href = NAV_PAGES[lbl.trim()];
+          return;
+        }
+        if (lbl && NAV_MAP[lbl.trim()]) {
+          e.preventDefault();
+          e.stopPropagation();
+          scrollTo(NAV_MAP[lbl.trim()]);
+          return;
+        }
+      }
+      // Prevent any remaining /navigation-items/* links navigating away
+      if (fsLink.href && fsLink.href.includes('/navigation-items/')) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }
+
+    // ── Internal page links that still point to /contact ─────────────────
+    var anchor = e.target.closest('a[href="/contact"]');
+    if (anchor) {
+      e.preventDefault();
+      e.stopPropagation();
+      scrollTo('.section.home-cta, .footer-section');
+    }
+
+  }, true /* capture */);
+})();
 </script>
 
 </body></html><!--/$-->
