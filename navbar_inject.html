@@ -1,153 +1,165 @@
-<!-- Rebis Graphene Navbar — injected into all sub-pages -->
+<!-- Rebis Graphene Navbar — exact homepage replica injected into sub-pages -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://cdn.prod.website-files.com/685c045f09a3dab41aa0d71d/css/sdi-presence.webflow.shared.b8363f9a7.min.css" rel="stylesheet" type="text/css" integrity="sha384-uDY/mnoK/HXEkDP+7r6pX11C6qAo7K3ELtxE8LamPqf3GX1XAk0RK/YDXEi3a+lJ" crossorigin="anonymous"/><link href="https://cdn.prod.website-files.com/685c045f09a3dab41aa0d71d/css/sdi-presence.webflow.685c045f09a3dab41aa0d6fb.34e64ad40.opt.min.css" rel="stylesheet" type="text/css" integrity="sha384-NOZK1Az92CSxWL+ZRd8At1/IDrQRQD3QrqsseolrFZgyTI31wdb5npvYgDJo92BR" crossorigin="anonymous"/>
 <style>
-  #rgi-navbar {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 99999;
-    background: #ffffff;
-    box-shadow: 0 1px 12px rgba(0,0,0,0.10);
-    font-family: 'Poppins', 'Inter', sans-serif;
-  }
+/* ── Fixed wrapper that holds the Rebis navbar ── */
+#rgi-nav-wrapper {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  width: 100% !important;
+  z-index: 99999 !important;
+  background: #fff;
+  box-shadow: 0 1px 12px rgba(0,0,0,0.10);
+}
+/* The inner .w-nav resets to relative inside the wrapper */
+#rgi-nav-wrapper .header.w-nav {
+  position: relative !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+/* Push page body down */
+body { padding-top: 80px !important; }
 
-  #rgi-navbar .rgi-nav-inner {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 32px;
-    height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
+/* ── 3. Navbar-specific RGI styles ── */
 
-  #rgi-navbar .rgi-logo img {
-    height: 48px;
-    width: auto;
-    display: block;
-  }
+.contact-btn-wrapper:hover .contact-btn-bg {
+	opacity: 0;
+}
 
-  #rgi-navbar .rgi-links {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 1;
-    justify-content: center;
-  }
+.contact-btn-wrapper:hover .contact-btn-wr {
+	background-image: linear-gradient(270deg, #fff, #a5d1ef);
+  background-clip: text;
+}
 
-  #rgi-navbar .rgi-link {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    padding: 8px 14px;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 500;
-    color: #0a2540;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.18s, color 0.18s;
-    white-space: nowrap;
-  }
-
-  #rgi-navbar .rgi-link:hover,
-  #rgi-navbar .rgi-link.active {
-    background: rgba(10,37,64,0.07);
-    color: #1a5cba;
-  }
-
-  #rgi-navbar .rgi-link svg {
-    opacity: 0.6;
-    flex-shrink: 0;
-  }
-
-  #rgi-navbar .rgi-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  #rgi-navbar .rgi-search {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 6px;
-    color: #0a2540;
-    display: flex;
-    align-items: center;
-    transition: background 0.18s;
-  }
-  #rgi-navbar .rgi-search:hover { background: rgba(10,37,64,0.07); }
-
-  #rgi-navbar .rgi-talk {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
-    background: #0a2540;
-    color: #fff;
-    border-radius: 100px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background 0.18s, opacity 0.18s;
-    white-space: nowrap;
-  }
-  #rgi-navbar .rgi-talk:hover { background: #1a3a5c; }
-
-  /* Push page content below fixed navbar */
-  body { padding-top: 72px !important; }
+/* ── Navbar height — sized exactly to logo ── */
+.header-content-container {
+  min-height: unset !important;
+  height: auto !important;
+  display: flex;
+  align-items: center;
+}
+.header-logo-wr {
+  display: flex;
+  align-items: center;
+}
+.header-layout {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+/* Ensure the nav row itself doesn't add extra height */
+.header-wr, .w-nav {
+  min-height: unset !important;
+}
+/* ── Page load transitions ── */
+.w-nav {
+  animation: rgiNavIn 0.6s cubic-bezier(.22,.68,0,1.2) both;
+}
+}
+.header-logo-img {
+  animation: rgiPop 0.65s cubic-bezier(.22,.68,0,1.2) 0.2s both;
+}
+}
+.contact-btn-wrapper {
+  animation: rgiFadeIn 0.5s ease 0.45s both;
+}
+/* ── Header nav underline ── */
+.header-nav-item-text { position:relative; }
+.header-nav-item-text::after {
+  content:''; position:absolute; bottom:-3px; left:0;
+  width:0; height:2px; background:currentColor;
+  transition: width .25s ease;
+}
+.w-dropdown:hover .header-nav-item-text::after { width:100%; }
+/* ── Button hover lifts ── */
+.button-over, .button-over-blue, .dark-blue-btn, .w-button, .contact-btn {
+  transition: transform .22s cubic-bezier(.22,.68,0,1.2),
+              box-shadow .22s ease !important;
+}
+.contact-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,20,80,.15);
+}
 </style>
 
-<nav id="rgi-navbar" role="banner">
-  <div class="rgi-nav-inner">
-    <!-- Logo -->
-    <a href="/" class="rgi-logo" aria-label="Rebis Graphene India — Home">
-      <img src="/impact-images/rebis-logo-transparent.png" alt="Rebis Graphene India Logo" />
-    </a>
+<div id="rgi-nav-wrapper">
+<div data-animation="default" data-collapse="tiny" data-duration="400" data-easing="ease" data-easing2="ease" role="banner" class="header w-nav"><div class="container is-header"><div class="header-layout"><div class="header-wr w-container"><div class="header-content-container"><div class="header-logo-wr"><a href="/" aria-current="page" class="header-logo w-nav-brand w--current"><img src="/impact-images/rebis-logo-transparent.png" loading="lazy" alt="Rebis Graphene India Logo" class="header-logo-img" style="height:48px;width:auto;object-fit:contain;display:block;"/></a><div data-lenis-toggle="" data-w-id="431e2da0-ad14-301e-dc03-ad37abb06d98" class="burger-btn w-nav-button"><div class="burger-btn-wr"><div class="burger-btn-inner"><div class="burger-btn-lines"><div data-w-id="fdac615e-77f8-24f4-2c4d-66dcfb512390" class="burger-line"></div><div data-w-id="55ce5a64-b030-169c-228d-60fb819d51ce" class="burger-line"></div><div data-w-id="a8740c0b-ed04-80ff-9a71-fbbade4febe8" class="burger-line"></div></div></div></div></div></div><div fs-list-instance="header" data-lenis-prevent="" class="header-nav"><div class="nav-menu__wr w-dyn-list"><div fs-list-element="list" fs-cmsnest-element="list" role="list" class="nav-menu__list w-dyn-items"><div role="listitem" class="nav-menu__item w-dyn-item"><a rel="nofollow" fs-list-element="item-link" href="/navigation-items/services" class="fs-link w-inline-block"></a><div data-hover="true" data-delay="500" class="nav-new__dropdown w-dropdown"><div class="nav-new__dropdown-toggle w-dropdown-toggle"><div class="nav-drop__bg__div"></div><div class="nav-inner-dt-content__wr"><div class="header-nav-item-text">Technology</div><div class="nav-dropdown-icon w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 15.5C11.7374 15.5005 11.4772 15.449 11.2346 15.3486C10.9919 15.2483 10.7715 15.1009 10.586 14.915L5.29297 9.62103L6.70697 8.20703L12 13.5L17.293 8.20703L18.707 9.62103L13.414 14.914C13.2285 15.1001 13.0081 15.2476 12.7655 15.3482C12.5228 15.4488 12.2626 15.5004 12 15.5Z" fill="currentcolor"/>
+</svg></div></div></div><nav class="nav-new-dropdown___list w-dropdown-list"><div fs-list-nest="2-lvl" fs-cmsnest-element="nest-target" fs-cmsnest-collection="2-lvl" fs-list-element="nest-target"></div></nav></div></div><div role="listitem" class="nav-menu__item w-dyn-item"><a rel="nofollow" fs-list-element="item-link" href="/navigation-items/industries" class="fs-link w-inline-block"></a><div data-hover="true" data-delay="500" class="nav-new__dropdown w-dropdown"><div class="nav-new__dropdown-toggle w-dropdown-toggle"><div class="nav-drop__bg__div"></div><div class="nav-inner-dt-content__wr"><div class="header-nav-item-text">Products</div><div class="nav-dropdown-icon w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 15.5C11.7374 15.5005 11.4772 15.449 11.2346 15.3486C10.9919 15.2483 10.7715 15.1009 10.586 14.915L5.29297 9.62103L6.70697 8.20703L12 13.5L17.293 8.20703L18.707 9.62103L13.414 14.914C13.2285 15.1001 13.0081 15.2476 12.7655 15.3482C12.5228 15.4488 12.2626 15.5004 12 15.5Z" fill="currentcolor"/>
+</svg></div></div></div><nav class="nav-new-dropdown___list w-dropdown-list"><div fs-list-nest="2-lvl" fs-cmsnest-element="nest-target" fs-cmsnest-collection="2-lvl" fs-list-element="nest-target"></div></nav></div></div><div role="listitem" class="nav-menu__item w-dyn-item"><a rel="nofollow" fs-list-element="item-link" href="/navigation-items/about-sdi" class="fs-link w-inline-block"></a><div data-hover="true" data-delay="500" class="nav-new__dropdown w-dropdown"><div class="nav-new__dropdown-toggle w-dropdown-toggle"><div class="nav-drop__bg__div"></div><div class="nav-inner-dt-content__wr"><div class="header-nav-item-text">Founder</div><div class="nav-dropdown-icon w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 15.5C11.7374 15.5005 11.4772 15.449 11.2346 15.3486C10.9919 15.2483 10.7715 15.1009 10.586 14.915L5.29297 9.62103L6.70697 8.20703L12 13.5L17.293 8.20703L18.707 9.62103L13.414 14.914C13.2285 15.1001 13.0081 15.2476 12.7655 15.3482C12.5228 15.4488 12.2626 15.5004 12 15.5Z" fill="currentcolor"/>
+</svg></div></div></div><nav class="nav-new-dropdown___list w-dropdown-list"><div fs-list-nest="2-lvl" fs-cmsnest-element="nest-target" fs-cmsnest-collection="2-lvl" fs-list-element="nest-target"></div></nav></div></div><div role="listitem" class="nav-menu__item w-dyn-item"><a rel="nofollow" fs-list-element="item-link" href="/navigation-items/resources" class="fs-link w-inline-block"></a><div data-hover="true" data-delay="500" class="nav-new__dropdown w-dropdown"><div class="nav-new__dropdown-toggle w-dropdown-toggle"><div class="nav-drop__bg__div"></div><div class="nav-inner-dt-content__wr"><div class="header-nav-item-text">Funding</div><div class="nav-dropdown-icon w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 15.5C11.7374 15.5005 11.4772 15.449 11.2346 15.3486C10.9919 15.2483 10.7715 15.1009 10.586 14.915L5.29297 9.62103L6.70697 8.20703L12 13.5L17.293 8.20703L18.707 9.62103L13.414 14.914C13.2285 15.1001 13.0081 15.2476 12.7655 15.3482C12.5228 15.4488 12.2626 15.5004 12 15.5Z" fill="currentcolor"/>
+</svg></div></div></div><nav class="nav-new-dropdown___list w-dropdown-list"><div fs-list-nest="2-lvl" fs-cmsnest-element="nest-target" fs-cmsnest-collection="2-lvl" fs-list-element="nest-target"></div></nav></div></div></div></div><div class="hide-nested-collection"><div class="w-dyn-list"><div fs-cmsnest-collection="2-lvl" fs-cmsnest-element="nest-source" role="list" class="drop-menu__wr is--marg-top w-dyn-items"><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/it-managed-services" class="fs-link w-inline-block"></a><div class="nav-inner__drop"><div class="nav-inner-drop-link__dt"><div class="nav-drop-inner__bg__div"></div><div class="nav-inner-dt-content__wr"><div>IT Managed Services</div><div class="nav-inner-dropdown-icon w-embed"><svg width="100%" height="100%" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 15.5C11.7374 15.5005 11.4772 15.449 11.2346 15.3486C10.9919 15.2483 10.7715 15.1009 10.586 14.915L5.29297 9.62103L6.70697 8.20703L12 13.5L17.293 8.20703L18.707 9.62103L13.414 14.914C13.2285 15.1001 13.0081 15.2476 12.7655 15.3482C12.5228 15.4488 12.2626 15.5004 12 15.5Z" fill="currentcolor"/>
+</svg></div></div><a href="/services/it-managed-services" class="nav-drop__link-abs w-inline-block"></a></div><div class="nav-inner-drop__list"><div fs-cmsnest-collection="3-lvl" fs-cmsnest-element="nest-target"></div></div></div></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/government" class="fs-link w-inline-block"></a><a href="/industry/government" class="nav-drop__link w-inline-block"><div>Government</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/about-us" class="fs-link w-inline-block"></a><a href="/about/about-us" class="nav-drop__link w-inline-block"><div>About Us</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/blogs" class="fs-link w-inline-block"></a><a href="/resources/blog" class="nav-drop__link w-inline-block"><div>Blogs</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/advisory-consulting" class="fs-link w-inline-block"></a><a href="/services/advisory-consulting" class="nav-drop__link w-inline-block"><div>Advisory &amp; Consulting</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/utilities" class="fs-link w-inline-block"></a><a href="/industry/utilities" class="nav-drop__link w-inline-block"><div>Utilities</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/locations" class="fs-link w-inline-block"></a><a href="/locations" class="nav-drop__link w-inline-block"><div>Locations</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/news" class="fs-link w-inline-block"></a><a href="/resources/news" class="nav-drop__link w-inline-block"><div>News</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/servicenow" class="fs-link w-inline-block"></a><a href="/services/servicenow" class="nav-drop__link w-inline-block"><div>ServiceNow</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/aviation" class="fs-link w-inline-block"></a><a href="/industry/aviation" class="nav-drop__link w-inline-block"><div>Aviation</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/leadership" class="fs-link w-inline-block"></a><a href="/about/leadership" class="nav-drop__link w-inline-block"><div>Leadership</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/videos" class="fs-link w-inline-block"></a><a href="/resources/videos" class="nav-drop__link w-inline-block"><div>Videos</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/enterprise-data-ai" class="fs-link w-inline-block"></a><a href="/services/enterprise-data-and-ai" class="nav-drop__link w-inline-block"><div>Enterprise Data &amp; AI</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/transportation" class="fs-link w-inline-block"></a><a href="/industry/transportation" class="nav-drop__link w-inline-block"><div>Transportation</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/history" class="fs-link w-inline-block"></a><a href="/about/history" class="nav-drop__link w-inline-block"><div>History</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/white-papers" class="fs-link w-inline-block"></a><a href="/resources/white-papers" class="nav-drop__link w-inline-block"><div>White Papers</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/enterprise-asset-management" class="fs-link w-inline-block"></a><a href="/services/enterprise-asset-management" class="nav-drop__link w-inline-block"><div>Enterprise Asset Management</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/public-safety-industries" class="fs-link w-inline-block"></a><a href="/industry/public-safety" class="nav-drop__link w-inline-block"><div>Public Safety</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/careers" class="fs-link w-inline-block"></a><a href="/about/careers" class="nav-drop__link w-inline-block"><div>Careers</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/case-studies" class="fs-link w-inline-block"></a><a href="/resources/case-studies" class="nav-drop__link w-inline-block"><div>Case Studies</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/public-safety" class="fs-link w-inline-block"></a><a href="/services/public-safety" class="nav-drop__link w-inline-block"><div>Public Safety</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/commercial-real-estate" class="fs-link w-inline-block"></a><a href="/industry/commercial-industrial-real-estate" class="nav-drop__link w-inline-block"><div>Commercial Real Estate</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/culture" class="fs-link w-inline-block"></a><a href="/about/culture" class="nav-drop__link w-inline-block"><div>Culture</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/banking-financial-services-insurance" class="fs-link w-inline-block"></a><a href="/industry/banking-financial-services-insurance" class="nav-drop__link w-inline-block"><div>Banking, Financial Services &amp; Insurance</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/diverse-partnerships" class="fs-link w-inline-block"></a><a href="/about/become-a-diverse-supplier" class="nav-drop__link w-inline-block"><div>Diverse Partnerships</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/archivelink" class="fs-link w-inline-block"></a><a href="/services/archivelink" class="nav-drop__link w-inline-block"><div>ArchiveLink</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/xchange" class="fs-link w-inline-block"></a><a href="/services/xchange" class="nav-drop__link w-inline-block"><div>Xchange</div></a></div><div role="listitem" class="nav--inner__drop-item w-dyn-item"><a href="/2-lvl/manufacturing" class="fs-link w-inline-block"></a><a href="/industry/manufacturing" class="nav-drop__link w-inline-block"><div>Manufacturing</div></a></div></div></div><div class="w-dyn-list"><div fs-cmsnest-collection="3-lvl" fs-cmsnest-element="nest-source" role="list" class="drop-menu__wr is--inner w-dyn-items"><div role="listitem" class="_3lvlv-drop-item w-dyn-item"><a href="/3-lvl/end-user-services-support" class="fs-link w-inline-block"></a><a href="/services/end-user-services-support" class="nav-drop__link w-inline-block"><div>End-User Services &amp; Support</div></a></div><div role="listitem" class="_3lvlv-drop-item w-dyn-item"><a href="/3-lvl/infrastructure-services" class="fs-link w-inline-block"></a><a href="/services/infrastructure-services" class="nav-drop__link w-inline-block"><div>Infrastructure Services</div></a></div></div></div></div><div class="header-contact-wrapper"><div data-hover="false" data-delay="0" class="search-wrapper hide-on-mobile w-dropdown"><div aria-label="Search - Interacting will expand the search form field" class="search-content w-dropdown-toggle"><!--$--><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 16 16" fill="none" class="width16-height16-svg"><!--$--><g clip-path="url(#clip0_10066_3811)"><!--$--><path d="M15.9999 15.0578L11.8252 10.8831C12.9096 9.55686 13.4428 7.86453 13.3144 6.15617C13.1861 4.44782 12.406 2.85415 11.1356 1.70481C9.86516 0.555472 8.20158 -0.0616068 6.48895 -0.0187856C4.77632 0.0240356 3.14566 0.723481 1.93426 1.93487C0.72287 3.14627 0.0234252 4.77693 -0.019396 6.48956C-0.0622172 8.20219 0.554862 9.86577 1.7042 11.1362C2.85354 12.4066 4.44721 13.1867 6.15556 13.315C7.86392 13.4434 9.55625 12.9102 10.8825 11.8258L15.0572 16.0005L15.9999 15.0578ZM6.66652 12.0005C5.61169 12.0005 4.58054 11.6877 3.70348 11.1016C2.82642 10.5156 2.14283 9.68265 1.73916 8.70811C1.3355 7.73357 1.22988 6.66122 1.43567 5.62665C1.64145 4.59208 2.1494 3.64178 2.89529 2.8959C3.64117 2.15002 4.59147 1.64206 5.62604 1.43628C6.66061 1.23049 7.73296 1.33611 8.7075 1.73977C9.68204 2.14344 10.515 2.82703 11.101 3.70409C11.6871 4.58115 11.9999 5.6123 11.9999 6.66713C11.9983 8.08113 11.4359 9.43676 10.436 10.4366C9.43615 11.4365 8.08052 11.9989 6.66652 12.0005Z" fill="currentColor"></path><!--/$--></g><!--/$--><!--$--><defs><!--$--><clippath id="clip0_10066_3811"><!--$--><rect width="16" height="16" fill="currentColor"></rect><!--/$--></clippath><!--/$--></defs><!--/$--></svg><!--/$--></div><nav class="nav-dropdown-list is-search w-dropdown-list"><div class="search-content-wr"><div class="seatch-content-inner"><p class="heading-style-32 c-black-blue-gradient">Search request</p><div class="seatch-content-form"><form action="/search" class="seatch-content-form_wr w-form"><div class="seatch-content-input_wr"><input class="seatch-content-input w-input" maxlength="256" name="query" aria-label="Search Form Field" placeholder="What are you looking for?" type="search" id="search" required=""/></div><div class="search-form-btn__wr"><div data-w-id="2bf73576-bed6-273d-42fb-569e2eecbf53" class="button-over-blue"><div class="button"><div class="blue-button-wr"><div class="blue-button-text-grad"><div class="t-red-medium-16 support-button-text text-size-16-mob">Search</div></div><div class="button-bg-grad-hover"></div></div><div class="button-bg-grad"></div><div class="button-bg-grad-top-right"></div><input type="submit" class="search-form-btn_inner-abs w-button" value="Search"/></div></div></div></form></div></div></div></nav></div><a href="/search" class="search-wrapper hide-on-desktop w-inline-block"><div class="search-content"><img src="https://cdn.prod.website-files.com/685c045f09a3dab41aa0d71d/68604252f4298d8162204902_search.svg" loading="lazy" alt="" class="width16-height16-svg"/></div></a><div class="contact-btn-wrapper"><a href="/contact" class="contact-btn w-inline-block"><div class="contact-btn-bg"></div><div class="contact-btn-bg-2"></div><div class="contact-btn-wr"><!--$--><svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 16 16" fill="none" class="width16-height16-svg"><!--$--><g clip-path="url(#clip0_10069_3893)"><!--$--><path d="M16 10.6667V16H10.6667C9.7314 15.999 8.81283 15.7522 8.0031 15.2841C7.19337 14.8161 6.52097 14.1433 6.05333 13.3333C6.55591 13.3297 7.05678 13.2743 7.548 13.168C7.9221 13.6358 8.39666 14.0134 8.93653 14.2728C9.47639 14.5322 10.0677 14.6668 10.6667 14.6667H14.6667V10.6667C14.6665 10.0675 14.5315 9.47603 14.2716 8.93616C14.0117 8.39628 13.6336 7.92184 13.1653 7.548C13.2726 7.05688 13.3289 6.55601 13.3333 6.05333C14.1433 6.52097 14.8161 7.19337 15.2841 8.0031C15.7522 8.81283 15.999 9.7314 16 10.6667ZM12 6C12 4.4087 11.3679 2.88258 10.2426 1.75736C9.11742 0.632141 7.5913 0 6 0C4.4087 0 2.88258 0.632141 1.75736 1.75736C0.632141 2.88258 0 4.4087 0 6L0 12H6C7.59076 11.9982 9.11586 11.3655 10.2407 10.2407C11.3655 9.11586 11.9982 7.59076 12 6V6ZM1.33333 6C1.33333 5.07702 1.60703 4.17477 2.11981 3.40734C2.63259 2.63991 3.36142 2.04177 4.21414 1.68856C5.06687 1.33535 6.00518 1.24294 6.91042 1.423C7.81567 1.60307 8.64719 2.04752 9.29983 2.70017C9.95248 3.35281 10.3969 4.18433 10.577 5.08958C10.7571 5.99482 10.6646 6.93313 10.3114 7.78586C9.95823 8.63858 9.36009 9.36741 8.59266 9.88019C7.82523 10.393 6.92298 10.6667 6 10.6667H1.33333V6Z" fill="currentColor"></path><!--/$--></g><!--/$--></svg><!--/$--><div class="t-red-medium-16">Talk to Us</div></div></a><div class="contact-btn-styles w-embed"><style>
+.contact-btn-wrapper:hover .contact-btn-bg {
+	opacity: 0;
+}
 
-    <!-- Nav links -->
-    <div class="rgi-links">
-      <a href="/technology" class="rgi-link" id="rgi-link-technology">
-        Technology
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15.5c-.263 0-.523-.051-.765-.151a1.97 1.97 0 0 1-.649-.434L5.293 9.621 6.707 8.207 12 13.5l5.293-5.293 1.414 1.414L13.414 14.914a1.97 1.97 0 0 1-.649.435A1.986 1.986 0 0 1 12 15.5Z" fill="currentColor"/></svg>
-      </a>
-      <a href="/products" class="rgi-link" id="rgi-link-products">
-        Products
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15.5c-.263 0-.523-.051-.765-.151a1.97 1.97 0 0 1-.649-.434L5.293 9.621 6.707 8.207 12 13.5l5.293-5.293 1.414 1.414L13.414 14.914a1.97 1.97 0 0 1-.649.435A1.986 1.986 0 0 1 12 15.5Z" fill="currentColor"/></svg>
-      </a>
-      <a href="/founder" class="rgi-link" id="rgi-link-founder">
-        Founder
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15.5c-.263 0-.523-.051-.765-.151a1.97 1.97 0 0 1-.649-.434L5.293 9.621 6.707 8.207 12 13.5l5.293-5.293 1.414 1.414L13.414 14.914a1.97 1.97 0 0 1-.649.435A1.986 1.986 0 0 1 12 15.5Z" fill="currentColor"/></svg>
-      </a>
-      <a href="/funding" class="rgi-link" id="rgi-link-funding">
-        Funding
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 15.5c-.263 0-.523-.051-.765-.151a1.97 1.97 0 0 1-.649-.434L5.293 9.621 6.707 8.207 12 13.5l5.293-5.293 1.414 1.414L13.414 14.914a1.97 1.97 0 0 1-.649.435A1.986 1.986 0 0 1 12 15.5Z" fill="currentColor"/></svg>
-      </a>
-    </div>
-
-    <!-- Right side -->
-    <div class="rgi-right">
-      <button class="rgi-search" aria-label="Search">
-        <svg width="18" height="18" viewBox="0 0 16 16" fill="none"><path d="M16 15.058l-4.175-4.175a6.667 6.667 0 1 0-.943.943L15.058 16 16 15.058ZM1.333 6.667a5.333 5.333 0 1 1 10.667 0 5.333 5.333 0 0 1-10.667 0Z" fill="currentColor"/></svg>
-      </button>
-      <a href="/funding" class="rgi-talk">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M16 10.667V16h-5.333a5.34 5.34 0 0 1-4.614-2.667 6.72 6.72 0 0 0 1.495-.165A4.004 4.004 0 0 0 10.667 14.667H14.667V10.667a4.003 4.003 0 0 0-1.514-3.119 6.72 6.72 0 0 0 .18-1.494A5.34 5.34 0 0 1 16 10.667ZM12 6A6 6 0 1 0 0 6v6h6a6.007 6.007 0 0 0 6-6Zm-10.667 0a4.667 4.667 0 1 1 9.334 0A4.671 4.671 0 0 1 6 10.667H1.333V6Z" fill="currentColor"/></svg>
-        Talk to Us
-      </a>
-    </div>
-  </div>
-</nav>
+.contact-btn-wrapper:hover .contact-btn-wr {
+	background-image: linear-gradient(270deg, #fff, #a5d1ef);
+  background-clip: text;
+}
+</style></div></div></div></div></div></div><div class="header-mob-open-bg"></div></div></div>
+</div>
 
 <script>
-  // Highlight active nav link based on current path
-  (function () {
-    var path = window.location.pathname.replace(/\/$/, '');
-    var map = { '/technology': 'technology', '/products': 'products', '/founder': 'founder', '/funding': 'funding' };
-    var key = map[path];
-    if (key) {
-      var el = document.getElementById('rgi-link-' + key);
-      if (el) el.classList.add('active');
+/* ── Sub-page navbar: navigate to pages on click ── */
+(function () {
+  var NAV = {
+    'Technology': '/technology',
+    'Products':   '/products',
+    'Founder':    '/founder',
+    'Funding':    '/funding',
+  };
+
+  /* Highlight active item */
+  var pathMap = {'/technology':'Technology','/products':'Products','/founder':'Founder','/funding':'Funding'};
+  var active = pathMap[window.location.pathname.replace(/\/+$/, '')];
+  if (active) {
+    document.querySelectorAll('.header-nav-item-text').forEach(function(el) {
+      if (el.textContent.trim() === active) el.style.fontWeight = '700';
+    });
+  }
+
+  document.addEventListener('click', function(e) {
+    /* Talk to Us */
+    if (e.target.closest('.contact-btn')) {
+      e.preventDefault(); e.stopPropagation();
+      window.location.href = '/funding'; return;
     }
-  })();
+    /* Nav dropdown toggle / area */
+    var toggle = e.target.closest('.nav-new__dropdown-toggle, .nav-new__dropdown');
+    if (toggle) {
+      var lbl = toggle.querySelector('.header-nav-item-text');
+      if (lbl && NAV[lbl.textContent.trim()]) {
+        e.preventDefault(); e.stopPropagation();
+        window.location.href = NAV[lbl.textContent.trim()]; return;
+      }
+    }
+    /* Hidden CMS fs-link anchors */
+    var fs = e.target.closest('a.fs-link');
+    if (fs) {
+      var item = fs.closest('.nav-menu__item');
+      if (item) {
+        var l2 = item.querySelector('.header-nav-item-text');
+        if (l2 && NAV[l2.textContent.trim()]) {
+          e.preventDefault(); e.stopPropagation();
+          window.location.href = NAV[l2.textContent.trim()]; return;
+        }
+      }
+      if (fs.href && fs.href.includes('/navigation-items/')) {
+        e.preventDefault(); e.stopPropagation();
+      }
+    }
+  }, true);
+})();
 </script>
